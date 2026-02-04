@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tool Diagnostico - Polipi Nasosinusali (CRSwNP)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2c5282;
+      --primary-light: #4a7ba7;
+      --accent: #2b6cb0;
+      --bg-main: #fafafa;
+      --bg-card: #ffffff;
+      --text-primary: #1a202c;
+      --text-secondary: #4a5568;
+      --text-muted: #718096;
+      --border: #e2e8f0;
+      --border-focus: #4a7ba7;
+      --success: #2d7a3e;
+      --warning: #b7791f;
+      --info: #2b6cb0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Source Sans 3', -apple-system, sans-serif;
+      background: var(--bg-main);
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    h1 {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .card-title {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.2rem 0.5rem;
+      border-radius: 3px;
+      background: var(--primary-light);
+      color: white;
+    }
+
+    .badge.optional {
+      background: var(--text-muted);
+    }
+
+    .section-description {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+      font-style: italic;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    select, input[type="number"] {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: border-color 0.2s;
+      background: white;
+    }
+
+    select:focus, input[type="number"]:focus {
+      outline: none;
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px rgba(74, 123, 167, 0.1);
+    }
+
+    .checkbox-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      width: 1.1rem;
+      height: 1.1rem;
+      cursor: pointer;
+    }
+
+    .checkbox-item label {
+      margin: 0;
+      font-weight: 400;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    button {
+      padding: 0.85rem 1.75rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    button.primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    button.primary:hover {
+      background: var(--primary-light);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(44, 82, 130, 0.2);
+    }
+
+    button.secondary {
+      background: var(--bg-main);
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+
+    button.secondary:hover {
+      background: #f1f1f1;
+    }
+
+    #output {
+      display: none;
+    }
+
+    #output.visible {
+      display: block;
+    }
+
+    .output-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .output-label {
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .classification {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .classification.type2 {
+      background: #e6f2ff;
+      color: var(--info);
+      border: 1px solid var(--info);
+    }
+
+    .classification.non-type2 {
+      background: #f7fafc;
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+
+    .prognosis-box {
+      background: #f8f9fa;
+      border-left: 4px solid var(--primary);
+      padding: 1rem;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+
+    .referto {
+      background: #fafafa;
+      border: 1px solid var(--border);
+      padding: 1.25rem;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      color: var(--text-primary);
+    }
+
+    .bibliography {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: 4px;
+      font-size: 0.85rem;
+    }
+
+    .bibliography h3 {
+      font-family: 'Crimson Pro', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--primary);
+    }
+
+    .bibliography ol {
+      margin-left: 1.5rem;
+    }
+
+    .bibliography li {
+      margin-bottom: 0.5rem;
+    }
+
+    .bibliography a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .bibliography a:hover {
+      text-decoration: underline;
+    }
+
+    .disclaimer {
+      background: #fffbeb;
+      border: 1px solid #f59e0b;
+      border-radius: 4px;
+      padding: 1rem;
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: #92400e;
+    }
+
+    .disclaimer strong {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem 0.5rem;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .card {
+        padding: 1.25rem;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Tool Diagnostico - Polipi Nasosinusali</h1>
+      <p class="subtitle">Classificazione endotipica secondo EPOS 2020 con quantificazione eosinofili tissutali</p>
+    </header>
+
+    <!-- INPUT MORFOLOGIA -->
+    <div class="card">
+      <h2 class="card-title">
+        <span>Sezione 1: Dati Morfologici</span>
+        <span class="badge">obbligatorio</span>
+      </h2>
+      <p class="section-description">
+        Valutazione istologica su colorazione ematossilina-eosina. Il conteggio degli eosinofili è il parametro fondamentale per la classificazione endotipica.
+      </p>
+
+      <div class="form-group">
+        <label for="eosinophils">Eosinofili/HPF (High Power Field, 400×)</label>
+        <select id="eosinophils" required>
+          <option value="">-- Seleziona range --</option>
+          <option value="0-5">&lt; 5 eosinofili/HPF</option>
+          <option value="5-10">5-10 eosinofili/HPF</option>
+          <option value="10-50">10-50 eosinofili/HPF</option>
+          <option value="50-70">50-70 eosinofili/HPF</option>
+          <option value=">70">&gt; 70 eosinofili/HPF</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="countMethod">Metodo di conteggio utilizzato</label>
+        <select id="countMethod">
+          <option value="mean3">Media di 3 HPF nelle zone più infiltrate</option>
+          <option value="mean5">Media di 5 HPF nelle zone più infiltrate</option>
+          <option value="hotspot">Hotspot singolo (massimo infiltrato)</option>
+          <option value="representative">Campo rappresentativo</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="stroma">Caratteristiche dello stroma</label>
+        <select id="stroma">
+          <option value="edematous">Edematoso mixoide</option>
+          <option value="fibrotic">Fibroso</option>
+          <option value="mixed">Misto (edematoso e fibroso)</option>
+          <option value="other">Altro</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="infiltrate">Infiltrato infiammatorio predominante</label>
+        <select id="infiltrate">
+          <option value="eosinophils">Eosinofili</option>
+          <option value="neutrophils">Neutrofili</option>
+          <option value="plasma">Plasmacellule</option>
+          <option value="lymphocytes">Linfociti</option>
+          <option value="mixed">Misto</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="epithelium">Caratteristiche dell'epitelio di rivestimento</label>
+        <select id="epithelium">
+          <option value="normal">Respiratorio integro</option>
+          <option value="squamous">Metaplasia squamosa</option>
+          <option value="hyperplasia">Iperplasia ghiandolare</option>
+          <option value="atypia">Atipia/displasia</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Elementi aggiuntivi</label>
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <input type="checkbox" id="fungi" name="features">
+            <label for="fungi">Funghi</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="mucin" name="features">
+            <label for="mucin">Mucina allergica</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="clc" name="features">
+            <label for="clc">Cristalli di Charcot-Leyden</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="degranulation" name="features">
+            <label for="degranulation">Degranulazione eosinofila massiva</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INPUT CLINICA -->
+    <div class="card">
+      <h2 class="card-title">
+        <span>Sezione 2: Dati Clinici</span>
+        <span class="badge optional">opzionale</span>
+      </h2>
+      <p class="section-description">
+        Informazioni cliniche per correlazione diagnostica e valutazione criteri per terapie biologiche. Se non disponibili, lasciare su "Non riportato".
+      </p>
+
+      <div class="form-group">
+        <label for="bilateral">Bilateralità clinica</label>
+        <select id="bilateral">
+          <option value="nr">Non riportato</option>
+          <option value="yes">Sì, bilaterale</option>
+          <option value="no">No, unilaterale</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="asthma">Asma comorbida</label>
+        <select id="asthma">
+          <option value="nr">Non riportato</option>
+          <option value="yes">Sì</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="nerd">N-ERD / Intolleranza a FANS</label>
+        <select id="nerd">
+          <option value="nr">Non riportato</option>
+          <option value="yes">Sì</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="bloodEos">Eosinofili ematici</label>
+        <select id="bloodEos">
+          <option value="nr">Non riportato</option>
+          <option value="<250">&lt; 250/μL</option>
+          <option value="≥250">≥ 250/μL</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="recurrence">Recidiva post-chirurgica</label>
+        <select id="recurrence">
+          <option value="nr">Non riportato</option>
+          <option value="yes">Sì</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="steroids">Steroidoterapia sistemica recente (&lt;4 settimane)</label>
+        <select id="steroids">
+          <option value="nr">Non riportato</option>
+          <option value="yes">Sì</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="button-group">
+      <button type="button" class="primary" onclick="generateReport()">Genera Referto</button>
+      <button type="button" class="secondary" onclick="resetForm()">Reset</button>
+    </div>
+
+    <!-- OUTPUT -->
+    <div id="output">
+      <div class="card">
+        <h2 class="card-title">Output Diagnostico</h2>
+
+        <div class="output-section">
+          <div class="output-label">Classificazione EPOS 2020</div>
+          <div id="classification"></div>
+        </div>
+
+        <div class="output-section">
+          <div class="output-label">Stratificazione Eosinofilia e Prognosi</div>
+          <div id="prognosis"></div>
+        </div>
+
+        <div class="output-section" id="biologics-section" style="display: none;">
+          <div class="output-label">Criteri per Terapie Biologiche</div>
+          <div id="biologics"></div>
+        </div>
+
+        <div class="output-section">
+          <div class="output-label">Testo per Referto</div>
+          <div id="reportText" class="referto"></div>
+        </div>
+
+        <div class="bibliography">
+          <h3>Bibliografia Essenziale</h3>
+          <ol>
+            <li>Fokkens WJ et al. European Position Paper on Rhinosinusitis and Nasal Polyps 2020. <a href="https://doi.org/10.4193/Rhin20.600" target="_blank">doi:10.4193/Rhin20.600</a></li>
+            <li>Toro MDC et al. Achieving the best method to classify Eosinophilic Chronic Rhinosinusitis. Rhinology 2021. <a href="https://doi.org/10.4193/Rhin20.644" target="_blank">doi:10.4193/Rhin20.644</a></li>
+            <li>McHugh T et al. High tissue eosinophilia as a marker for chronic rhinosinusitis subtype. Int Forum Allergy Rhinol 2020. <a href="https://doi.org/10.1002/alr.22517" target="_blank">doi:10.1002/alr.22517</a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- DISCLAIMER -->
+    <div class="disclaimer">
+      <strong>⚠️ Disclaimer Medico-Legale</strong>
+      Questo tool è un ausilio diagnostico basato sulle linee guida EPOS 2020. La diagnosi finale deve sempre essere formulata dal patologo sulla base dell'esame morfologico completo del vetrino, della correlazione clinico-patologica e del giudizio professionale. Il conteggio degli eosinofili può essere influenzato da steroidoterapia recente, sede di prelievo bioptico e metodo di processazione del campione. I criteri per terapie biologiche richiedono valutazione multidimensionale clinica.
+    </div>
+  </div>
+
+  <script>
+    function generateReport() {
+      // Get input values
+      const eosRange = document.getElementById('eosinophils').value;
+      const countMethod = document.getElementById('countMethod').value;
+      const stroma = document.getElementById('stroma').value;
+      const infiltrate = document.getElementById('infiltrate').value;
+      const epithelium = document.getElementById('epithelium').value;
+      
+      // Clinical data
+      const bilateral = document.getElementById('bilateral').value;
+      const asthma = document.getElementById('asthma').value;
+      const nerd = document.getElementById('nerd').value;
+      const bloodEos = document.getElementById('bloodEos').value;
+      const recurrence = document.getElementById('recurrence').value;
+      const steroids = document.getElementById('steroids').value;
+
+      // Additional features
+      const fungi = document.getElementById('fungi').checked;
+      const mucin = document.getElementById('mucin').checked;
+      const clc = document.getElementById('clc').checked;
+      const degranulation = document.getElementById('degranulation').checked;
+
+      // Validation
+      if (!eosRange) {
+        alert('Inserire il conteggio degli eosinofili/HPF');
+        return;
+      }
+
+      // Determine eosinophil count for logic
+      let eosCount = 0;
+      if (eosRange === '0-5') eosCount = 3;
+      else if (eosRange === '5-10') eosCount = 7;
+      else if (eosRange === '10-50') eosCount = 30;
+      else if (eosRange === '50-70') eosCount = 60;
+      else if (eosRange === '>70') eosCount = 80;
+
+      // Classification
+      const isType2 = eosCount >= 10;
+      
+      let classificationHTML = '';
+      if (isType2) {
+        classificationHTML = '<div class="classification type2">Endotipo Type 2 (CRSwNP eosinofilica)</div>';
+      } else {
+        classificationHTML = '<div class="classification non-type2">Endotipo non-Type 2</div>';
+      }
+      document.getElementById('classification').innerHTML = classificationHTML;
+
+      // Prognosis
+      let prognosisHTML = '<div class="prognosis-box">';
+      if (eosCount < 10) {
+        prognosisHTML += '<strong>Eosinofilia bassa (&lt;10 eos/HPF)</strong><br>';
+        prognosisHTML += 'Prognosi generalmente favorevole. Rischio di recidiva post-chirurgica basso. Non candidabile a terapie biologiche anti-Type 2.';
+      } else if (eosCount >= 10 && eosCount < 50) {
+        prognosisHTML += '<strong>Eosinofilia moderata (10-50 eos/HPF)</strong><br>';
+        prognosisHTML += 'Endotipo Type 2. Rischio moderato di recidiva. Potenzialmente candidabile a terapie biologiche se criteri clinici soddisfatti.';
+      } else if (eosCount >= 50 && eosCount < 70) {
+        prognosisHTML += '<strong>Eosinofilia severa (50-70 eos/HPF)</strong><br>';
+        prognosisHTML += 'Endotipo Type 2 severo. Rischio elevato di recidiva post-chirurgica. Forte indicazione a terapie biologiche se disponibili dati clinici.';
+      } else {
+        prognosisHTML += '<strong>Eosinofilia molto severa (&gt;70 eos/HPF)</strong><br>';
+        prognosisHTML += 'Endotipo Type 2 molto severo. Rischio molto alto di recidiva (cut-off prognostico in letteratura). Candidato ideale per terapie biologiche.';
+      }
+      prognosisHTML += '</div>';
+      document.getElementById('prognosis').innerHTML = prognosisHTML;
+
+      // Biologics criteria (if clinical data available)
+      // EPOS 2020: need at least 3 of 5 criteria
+      // Simplified version here
+      if (isType2 && (bilateral !== 'nr' || asthma !== 'nr' || bloodEos !== 'nr')) {
+        document.getElementById('biologics-section').style.display = 'block';
+        let biologicsHTML = '<div class="prognosis-box">';
+        biologicsHTML += '<strong>Criteri EPOS 2020 per terapie biologiche:</strong><br>';
+        biologicsHTML += '• Eosinofilia tissutale ≥10/HPF: <strong>✓ Soddisfatto</strong><br>';
+        if (bloodEos === '≥250') biologicsHTML += '• Eosinofili ematici ≥250/μL: <strong>✓ Soddisfatto</strong><br>';
+        if (asthma === 'yes') biologicsHTML += '• Asma comorbida: <strong>✓ Presente</strong><br>';
+        biologicsHTML += '<br><em>Nota: La candidabilità completa richiede valutazione clinica multidimensionale (SNOT-22, necessità steroidi sistemici, anosmia, ecc.)</em>';
+        biologicsHTML += '</div>';
+        document.getElementById('biologics').innerHTML = biologicsHTML;
+      } else {
+        document.getElementById('biologics-section').style.display = 'none';
+      }
+
+      // Generate report text
+      let reportText = 'DIAGNOSI:\n';
+      reportText += '- Polipo nasosinusale infiammatorio';
+      if (isType2) {
+        reportText += ' con marcata eosinofilia (CRSwNP eosinofilica, endotipo Type 2 secondo EPOS 2020).\n';
+      } else {
+        reportText += ' (endotipo non-Type 2 secondo EPOS 2020).\n';
+      }
+      
+      reportText += '\nVALUTAZIONE ISTOLOGICA:\n';
+      reportText += `- Conteggio eosinofili: ${eosRange} eos/HPF (400×)\n`;
+      reportText += `  Metodo: ${getMethodText(countMethod)}\n`;
+      reportText += `- Stroma: ${getStromaText(stroma)}\n`;
+      reportText += `- Infiltrato predominante: ${getInfiltrateText(infiltrate)}\n`;
+      reportText += `- Epitelio: ${getEpitheliumText(epithelium)}\n`;
+      
+      if (fungi || mucin || clc || degranulation) {
+        reportText += '\nELEMENTI AGGIUNTIVI:\n';
+        if (fungi) reportText += '- Presenza di funghi\n';
+        if (mucin) reportText += '- Mucina allergica\n';
+        if (clc) reportText += '- Cristalli di Charcot-Leyden\n';
+        if (degranulation) reportText += '- Degranulazione eosinofila massiva\n';
+      }
+
+      // Clinical correlation
+      if (bilateral !== 'nr' || asthma !== 'nr' || steroids !== 'nr') {
+        reportText += '\nCORRELAZIONE CLINICO-PATOLOGICA:\n';
+        if (bilateral === 'yes' && isType2) {
+          reportText += '- Bilateralità clinica coerente con endotipo Type 2\n';
+        }
+        if (asthma === 'yes' && isType2) {
+          reportText += '- Asma comorbida tipica di CRSwNP eosinofilica\n';
+        }
+        if (steroids === 'yes') {
+          reportText += '- NOTA: Steroidoterapia recente può sottostimare il conteggio eosinofili\n';
+        }
+      }
+
+      reportText += '\nCLASSIFICAZIONE:\n';
+      if (isType2) {
+        reportText += '- Endotipo Type 2 (infiammazione eosinofila, ≥10 eos/HPF secondo EPOS 2020)\n';
+        if (eosCount >= 50) {
+          reportText += '- Rischio elevato di recidiva post-chirurgica (eosinofilia severa)\n';
+        }
+      } else {
+        reportText += '- Endotipo non-Type 2 (<10 eos/HPF secondo EPOS 2020)\n';
+      }
+
+      document.getElementById('reportText').textContent = reportText;
+
+      // Show output
+      document.getElementById('output').classList.add('visible');
+      document.getElementById('output').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function getMethodText(method) {
+      const methods = {
+        'mean3': 'media di 3 HPF nelle zone più infiltrate',
+        'mean5': 'media di 5 HPF nelle zone più infiltrate',
+        'hotspot': 'hotspot singolo (massimo infiltrato)',
+        'representative': 'campo rappresentativo'
+      };
+      return methods[method] || method;
+    }
+
+    function getStromaText(stroma) {
+      const stromaTypes = {
+        'edematous': 'edematoso mixoide',
+        'fibrotic': 'fibroso',
+        'mixed': 'misto (edematoso e fibroso)',
+        'other': 'altro'
+      };
+      return stromaTypes[stroma] || stroma;
+    }
+
+    function getInfiltrateText(infiltrate) {
+      const infiltrateTypes = {
+        'eosinophils': 'eosinofili',
+        'neutrophils': 'neutrofili',
+        'plasma': 'plasmacellule',
+        'lymphocytes': 'linfociti',
+        'mixed': 'misto'
+      };
+      return infiltrateTypes[infiltrate] || infiltrate;
+    }
+
+    function getEpitheliumText(epithelium) {
+      const epitheliumTypes = {
+        'normal': 'respiratorio integro',
+        'squamous': 'metaplasia squamosa',
+        'hyperplasia': 'iperplasia ghiandolare',
+        'atypia': 'atipia/displasia'
+      };
+      return epitheliumTypes[epithelium] || epithelium;
+    }
+
+    function resetForm() {
+      document.querySelectorAll('select').forEach(select => {
+        select.selectedIndex = 0;
+      });
+      document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.checked = false;
+      });
+      document.getElementById('output').classList.remove('visible');
+    }
+  </script>
+</body>
+</html>
