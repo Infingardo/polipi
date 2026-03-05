@@ -38,11 +38,38 @@
       padding: 2rem 1rem;
     }
 
-    .container { max-width: 1000px; margin: 0 auto; }
+    .container { max-width: min(1600px, 97vw); margin: 0 auto; }
+
+    /* ── TWO-COLUMN LAYOUT on wide screens ── */
+    .main-layout {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+
+    .form-col {
+      flex: 1 1 55%;
+      min-width: 0;
+    }
+
+    .output-col {
+      flex: 1 1 42%;
+      min-width: 320px;
+      position: sticky;
+      top: 1.5rem;
+      max-height: calc(100vh - 3rem);
+      overflow-y: auto;
+    }
+
+    /* On narrow screens: stack vertically */
+    @media (max-width: 960px) {
+      .main-layout { flex-direction: column; }
+      .output-col { position: static; max-height: none; min-width: 0; }
+    }
 
     header {
-      margin-bottom: 2.5rem;
-      padding-bottom: 1.5rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1.25rem;
       border-bottom: 2px solid var(--border);
     }
 
@@ -51,7 +78,7 @@
       font-size: 2rem;
       font-weight: 700;
       color: var(--primary);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
       letter-spacing: -0.02em;
     }
 
@@ -65,17 +92,17 @@
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 1.75rem;
-      margin-bottom: 1.5rem;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
       box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     }
 
     .card-title {
       font-family: 'Crimson Pro', Georgia, serif;
-      font-size: 1.3rem;
+      font-size: 1.25rem;
       font-weight: 600;
       color: var(--primary);
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.65rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -96,35 +123,35 @@
     .badge.optional { background: var(--text-muted); }
 
     .section-description {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       color: var(--text-muted);
-      margin-bottom: 1.25rem;
+      margin-bottom: 1rem;
       font-style: italic;
     }
 
-    .form-group { margin-bottom: 1.5rem; }
+    .form-group { margin-bottom: 1.25rem; }
 
     label {
       display: block;
       font-weight: 600;
       color: var(--text-primary);
-      margin-bottom: 0.5rem;
-      font-size: 0.95rem;
+      margin-bottom: 0.4rem;
+      font-size: 0.92rem;
     }
 
     .label-note {
       font-weight: 400;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
       margin-left: 0.4rem;
     }
 
     select, input[type="number"] {
       width: 100%;
-      padding: 0.75rem;
+      padding: 0.65rem 0.75rem;
       border: 1px solid var(--border);
       border-radius: 4px;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-family: inherit;
       transition: border-color 0.2s;
       background: white;
@@ -142,12 +169,10 @@
       gap: 0.75rem;
     }
 
-    .eos-input-wrapper input {
-      max-width: 180px;
-    }
+    .eos-input-wrapper input { max-width: 160px; }
 
     .eos-unit {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       color: var(--text-muted);
       white-space: nowrap;
     }
@@ -155,11 +180,11 @@
     .inline-warning {
       display: none;
       margin-top: 0.5rem;
-      padding: 0.5rem 0.75rem;
+      padding: 0.45rem 0.7rem;
       background: var(--warning-bg);
       border: 1px solid var(--warning-border);
       border-radius: 4px;
-      font-size: 0.85rem;
+      font-size: 0.83rem;
       color: #92400e;
     }
 
@@ -167,8 +192,8 @@
 
     .checkbox-group {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 0.75rem;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 0.6rem;
     }
 
     .checkbox-item {
@@ -178,8 +203,8 @@
     }
 
     .checkbox-item input[type="checkbox"] {
-      width: 1.1rem;
-      height: 1.1rem;
+      width: 1.05rem;
+      height: 1.05rem;
       cursor: pointer;
       margin-top: 0.15rem;
       flex-shrink: 0;
@@ -189,60 +214,58 @@
       margin: 0;
       font-weight: 400;
       cursor: pointer;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
     }
 
     .biologics-criteria-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 0.75rem;
+      gap: 0.65rem;
     }
 
     .criterion-item {
       display: flex;
       align-items: flex-start;
       gap: 0.75rem;
-      padding: 0.75rem;
+      padding: 0.65rem 0.75rem;
       border: 1px solid var(--border);
       border-radius: 4px;
       background: #f8f9fa;
     }
 
     .criterion-item input[type="checkbox"] {
-      width: 1.1rem;
-      height: 1.1rem;
+      width: 1.05rem;
+      height: 1.05rem;
       cursor: pointer;
       margin-top: 0.2rem;
       flex-shrink: 0;
     }
 
-    .criterion-label {
-      flex: 1;
-    }
+    .criterion-label { flex: 1; }
 
     .criterion-label strong {
       display: block;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       color: var(--text-primary);
-      margin-bottom: 0.15rem;
+      margin-bottom: 0.12rem;
     }
 
     .criterion-label span {
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
     }
 
     .button-group {
       display: flex;
       gap: 1rem;
-      margin-top: 2rem;
+      margin-top: 1.5rem;
     }
 
     button {
-      padding: 0.85rem 1.75rem;
+      padding: 0.8rem 1.5rem;
       border: none;
       border-radius: 4px;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
@@ -268,14 +291,25 @@
 
     button.secondary:hover { background: #f1f1f1; }
 
+    /* ── OUTPUT COLUMN ── */
     #output { display: none; }
     #output.visible { display: block; }
 
-    .output-section { margin-bottom: 1.5rem; }
+    .output-placeholder {
+      background: var(--bg-card);
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .output-section { margin-bottom: 1.25rem; }
 
     .output-label {
       font-weight: 600;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--text-muted);
@@ -284,11 +318,11 @@
 
     .classification {
       display: inline-block;
-      padding: 0.5rem 1rem;
+      padding: 0.45rem 0.9rem;
       border-radius: 4px;
       font-weight: 600;
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+      margin-bottom: 0.4rem;
     }
 
     .classification.type2 {
@@ -306,11 +340,11 @@
     .aerd-alert {
       display: none;
       margin-top: 0.5rem;
-      padding: 0.75rem 1rem;
+      padding: 0.65rem 0.9rem;
       background: #fff7ed;
       border: 1px solid #f97316;
       border-radius: 4px;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       color: #7c2d12;
     }
 
@@ -319,118 +353,82 @@
     .prognosis-box {
       background: #f8f9fa;
       border-left: 4px solid var(--primary);
-      padding: 1rem;
-      margin: 0.5rem 0;
-      font-size: 0.9rem;
+      padding: 0.85rem 1rem;
+      margin: 0.4rem 0;
+      font-size: 0.88rem;
     }
 
     .cutoff-note {
-      margin-top: 0.75rem;
-      padding: 0.5rem 0.75rem;
+      margin-top: 0.65rem;
+      padding: 0.45rem 0.7rem;
       background: #f0f4f8;
       border-radius: 4px;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: var(--text-secondary);
     }
 
-    /* Biologics score display */
     .biologics-score-box {
-      padding: 1.25rem;
+      padding: 1rem 1.1rem;
       border-radius: 6px;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
     }
 
-    .biologics-score-box.eligible {
-      background: #f0fdf4;
-      border: 1px solid #16a34a;
-    }
-
-    .biologics-score-box.borderline {
-      background: #fffbeb;
-      border: 1px solid var(--warning-border);
-    }
-
-    .biologics-score-box.not-eligible {
-      background: #f7fafc;
-      border: 1px solid var(--border);
-    }
+    .biologics-score-box.eligible   { background: #f0fdf4; border: 1px solid #16a34a; }
+    .biologics-score-box.borderline { background: #fffbeb; border: 1px solid var(--warning-border); }
+    .biologics-score-box.not-eligible { background: #f7fafc; border: 1px solid var(--border); }
 
     .score-header {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      margin-bottom: 0.75rem;
+      gap: 0.9rem;
+      margin-bottom: 0.65rem;
     }
 
     .score-number {
       font-family: 'Crimson Pro', serif;
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       font-weight: 700;
       line-height: 1;
     }
 
-    .score-number.eligible { color: #16a34a; }
-    .score-number.borderline { color: var(--warning); }
+    .score-number.eligible     { color: #16a34a; }
+    .score-number.borderline   { color: var(--warning); }
     .score-number.not-eligible { color: var(--text-muted); }
 
-    .score-label {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-    }
+    .score-label { font-size: 0.88rem; color: var(--text-secondary); }
+    .score-label strong { display: block; font-size: 0.95rem; color: var(--text-primary); }
 
-    .score-label strong {
-      display: block;
-      font-size: 1rem;
-      color: var(--text-primary);
-    }
-
-    .criteria-list {
-      list-style: none;
-      margin-top: 0.75rem;
-    }
+    .criteria-list { list-style: none; margin-top: 0.65rem; }
 
     .criteria-list li {
       display: flex;
       align-items: flex-start;
       gap: 0.5rem;
-      padding: 0.35rem 0;
-      font-size: 0.88rem;
+      padding: 0.3rem 0;
+      font-size: 0.85rem;
       border-bottom: 1px solid rgba(0,0,0,0.05);
     }
 
     .criteria-list li:last-child { border-bottom: none; }
 
     .criterion-status {
-      width: 1.2rem;
-      height: 1.2rem;
+      width: 1.15rem;
+      height: 1.15rem;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       flex-shrink: 0;
       margin-top: 0.1rem;
     }
 
-    .criterion-status.met {
-      background: #16a34a;
-      color: white;
-    }
-
-    .criterion-status.not-met {
-      background: #cbd5e0;
-      color: white;
-    }
-
-    .criterion-status.nr {
-      background: #e2e8f0;
-      color: var(--text-muted);
-      font-size: 0.6rem;
-    }
+    .criterion-status.met     { background: #16a34a; color: white; }
+    .criterion-status.not-met { background: #cbd5e0; color: white; }
 
     .biologics-note {
-      margin-top: 0.75rem;
-      font-size: 0.83rem;
+      margin-top: 0.65rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
       font-style: italic;
     }
@@ -438,19 +436,21 @@
     .referto {
       background: #fafafa;
       border: 1px solid var(--border);
-      padding: 1.25rem;
+      padding: 1rem 1.1rem;
       border-radius: 4px;
       font-family: 'Courier New', monospace;
-      font-size: 0.85rem;
-      line-height: 1.8;
+      font-size: 0.82rem;
+      line-height: 1.75;
       white-space: pre-wrap;
       color: var(--text-primary);
+      max-height: 320px;
+      overflow-y: auto;
     }
 
     .copy-btn {
       margin-top: 0.5rem;
-      padding: 0.4rem 0.9rem;
-      font-size: 0.82rem;
+      padding: 0.35rem 0.85rem;
+      font-size: 0.8rem;
       background: var(--bg-main);
       border: 1px solid var(--border);
       border-radius: 4px;
@@ -462,23 +462,23 @@
     .copy-btn:hover { background: #edf2f7; }
 
     .bibliography {
-      margin-top: 1.5rem;
-      padding: 1rem;
+      margin-top: 1.25rem;
+      padding: 0.85rem;
       background: #f8f9fa;
       border-radius: 4px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
     }
 
     .bibliography h3 {
       font-family: 'Crimson Pro', serif;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 600;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.6rem;
       color: var(--primary);
     }
 
-    .bibliography ol { margin-left: 1.5rem; }
-    .bibliography li { margin-bottom: 0.5rem; }
+    .bibliography ol { margin-left: 1.3rem; }
+    .bibliography li { margin-bottom: 0.4rem; }
     .bibliography a { color: var(--primary); text-decoration: none; }
     .bibliography a:hover { text-decoration: underline; }
 
@@ -486,41 +486,38 @@
       background: #fffbeb;
       border: 1px solid var(--warning-border);
       border-radius: 4px;
-      padding: 1rem;
-      margin-top: 2rem;
-      font-size: 0.85rem;
+      padding: 0.85rem;
+      margin-top: 1.5rem;
+      font-size: 0.82rem;
       color: #92400e;
     }
 
     .disclaimer strong {
       display: block;
-      margin-bottom: 0.5rem;
-      font-size: 0.9rem;
+      margin-bottom: 0.4rem;
+      font-size: 0.88rem;
     }
 
     .section-divider {
       border: none;
       border-top: 1px solid var(--border);
-      margin: 1.5rem 0;
+      margin: 1.1rem 0;
     }
 
     .case-input-row {
       display: flex;
-      gap: 1rem;
+      gap: 0.85rem;
       flex-wrap: wrap;
     }
 
-    .case-input-row .form-group {
-      flex: 1;
-      min-width: 200px;
-    }
+    .case-input-row .form-group { flex: 1; min-width: 180px; }
 
     input[type="text"] {
       width: 100%;
-      padding: 0.75rem;
+      padding: 0.65rem 0.75rem;
       border: 1px solid var(--border);
       border-radius: 4px;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-family: inherit;
       transition: border-color 0.2s;
       background: white;
@@ -532,41 +529,23 @@
       box-shadow: 0 0 0 3px rgba(74,123,167,0.1);
     }
 
-    button.print-btn {
-      background: #2d7a3e;
-      color: white;
-    }
+    button.print-btn { background: #2d7a3e; color: white; }
+    button.print-btn:hover { background: #276636; transform: translateY(-1px); }
 
-    button.print-btn:hover {
-      background: #276636;
-      transform: translateY(-1px);
-    }
+    .print-btn-wrapper { display: flex; gap: 0.75rem; margin-top: 0.75rem; }
 
     @media print {
       body { padding: 0; background: white; font-size: 11pt; }
       .container { max-width: 100%; }
+      .main-layout { flex-direction: column; }
+      .output-col { position: static; max-height: none; }
+      .form-col { display: none; }
       .card { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; }
-      .button-group, #output > .card > .card-title, .copy-btn, .print-btn-wrapper { display: none !important; }
+      .button-group, .copy-btn, .print-btn-wrapper, .output-placeholder { display: none !important; }
       header { border-bottom: 2px solid #333; }
       h1 { font-size: 16pt; }
-      .referto { font-size: 10pt; border: 1px solid #ccc; }
+      .referto { font-size: 10pt; border: 1px solid #ccc; max-height: none; }
       .disclaimer { border: 1px solid #999; }
-      .print-only { display: block !important; }
-    }
-
-    .print-only { display: none; }
-
-    .print-btn-wrapper {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-      body { padding: 1rem 0.5rem; }
-      h1 { font-size: 1.5rem; }
-      .card { padding: 1.25rem; }
-      .button-group { flex-direction: column; }
-      button { width: 100%; }
-      .eos-input-wrapper { flex-wrap: wrap; }
     }
   </style>
 </head>
@@ -578,361 +557,372 @@
     <p class="subtitle">Classificazione endotipica EPOS 2020 · Criteri candidabilità terapie biologiche · Triade AERD/N-ERD · v2.0</p>
   </header>
 
-  <!-- DATI CASO -->
-  <div class="card">
-    <h2 class="card-title">
-      <span>Dati Caso</span>
-      <span class="badge optional">opzionale</span>
-    </h2>
-    <div class="case-input-row">
-      <div class="form-group">
-        <label for="caseNumber">Numero di caso / accession number</label>
-        <input type="text" id="caseNumber" placeholder="es. 2026-12345">
-      </div>
-      <div class="form-group">
-        <label for="caseDate">Data referto</label>
-        <input type="text" id="caseDate" placeholder="es. 21/02/2026">
-      </div>
-      <div class="form-group">
-        <label for="caseSite">Sede prelievo</label>
-        <input type="text" id="caseSite" placeholder="es. etmoide dx, seno mascellare sn">
-      </div>
-    </div>
-  </div>
+  <div class="main-layout">
 
-  <!-- SEZIONE 1: MORFOLOGIA -->
-  <div class="card">
-    <h2 class="card-title">
-      <span>Sezione 1: Dati Morfologici</span>
-      <span class="badge">obbligatorio</span>
-    </h2>
-    <p class="section-description">
-      Valutazione istologica su EE. Il conteggio degli eosinofili è il parametro fondamentale per la classificazione endotipica secondo EPOS 2020 (cut-off ≥10 eos/HPF).
-    </p>
+    <!-- ══════════════ FORM COLUMN ══════════════ -->
+    <div class="form-col">
 
-    <div class="form-group">
-      <label for="eosinophils">
-        Eosinofili/HPF (400×)
-        <span class="label-note">— valore numerico medio nelle aree più infiltrate</span>
-      </label>
-      <div class="eos-input-wrapper">
-        <input type="number" id="eosinophils" min="0" max="500" step="1" placeholder="es. 35" required>
-        <span class="eos-unit">eos/HPF</span>
-      </div>
-      <div class="inline-warning" id="eos-zone-warning"></div>
-    </div>
-
-    <div class="form-group">
-      <label for="countMethod">
-        Metodo di conteggio
-      </label>
-      <select id="countMethod" onchange="checkMethod()">
-        <option value="mean3">Media di 3 HPF nelle zone più infiltrate (raccomandato)</option>
-        <option value="mean5">Media di 5 HPF nelle zone più infiltrate</option>
-        <option value="hotspot">Hotspot singolo (massimo infiltrato)</option>
-        <option value="representative">Campo rappresentativo</option>
-      </select>
-      <div class="inline-warning" id="hotspot-warning" style="display:none;">
-        ⚠️ <strong>Attenzione:</strong> il metodo hotspot tende a sovrastimare sistematicamente l'eosinofilia tissutale. Il valore inserito potrebbe non essere rappresentativo dell'infiltrato medio. Il referto includerà questa avvertenza.
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="stroma">Caratteristiche dello stroma</label>
-      <select id="stroma">
-        <option value="edematous">Edematoso mixoide</option>
-        <option value="fibrotic">Fibroso</option>
-        <option value="mixed">Misto (edematoso e fibroso)</option>
-        <option value="other">Altro/non specificato</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="infiltrate">Infiltrato infiammatorio predominante</label>
-      <select id="infiltrate">
-        <option value="eosinophils">Eosinofili</option>
-        <option value="neutrophils">Neutrofili</option>
-        <option value="plasma">Plasmacellule</option>
-        <option value="lymphocytes">Linfociti</option>
-        <option value="mixed">Misto</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="epithelium">Epitelio di rivestimento</label>
-      <select id="epithelium">
-        <option value="normal">Respiratorio pseudostratificato integro</option>
-        <option value="squamous">Metaplasia squamosa</option>
-        <option value="hyperplasia">Iperplasia ghiandolare</option>
-        <option value="atypia">Atipia/displasia (segnalare separatamente)</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label>Elementi aggiuntivi — morfologia EE</label>
-      <div class="checkbox-group">
-        <div class="checkbox-item">
-          <input type="checkbox" id="fungi" name="features">
-          <label for="fungi">Funghi (colorazioni speciali se necessario)</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="mucin" name="features">
-          <label for="mucin">Mucina allergica (mucina densa con eosinofili)</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="clc" name="features">
-          <label for="clc">Cristalli di Charcot-Leyden</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="degranulation" name="features">
-          <label for="degranulation">Degranulazione eosinofila massiva/extracellulare</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="germinal" name="features">
-          <label for="germinal">Centri germinativi prominenti</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="microabscesses" name="features">
-          <label for="microabscesses">Microascessi neutrofili</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="fibrin" name="features">
-          <label for="fibrin">Depositi di fibrina</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="remodeling" name="features">
-          <label for="remodeling">Remodeling stromale fibroblastico marcato</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="vasculitis" name="features">
-          <label for="vasculitis">Vasculite ⚠️ (escludere patologia ANCA/granulomatosa)</label>
-        </div>
-        <div class="checkbox-item">
-          <input type="checkbox" id="heterogeneous" name="features">
-          <label for="heterogeneous">Distribuzione eosinofili disomogenea (pattern patchy)</label>
-        </div>
-
-  <!-- SEZIONE 2: DATI CLINICI BASE -->
-  <div class="card">
-    <h2 class="card-title">
-      <span>Sezione 2: Dati Clinici</span>
-      <span class="badge optional">opzionale</span>
-    </h2>
-    <p class="section-description">
-      Informazioni per correlazione clinico-patologica e valutazione candidabilità biologici. Se non disponibili, lasciare "Non riportato".
-    </p>
-
-    <div class="form-group">
-      <label for="bilateral">Bilateralità clinica</label>
-      <select id="bilateral">
-        <option value="nr">Non riportato</option>
-        <option value="yes">Sì, bilaterale</option>
-        <option value="no">No, unilaterale</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="asthma">Asma comorbida</label>
-      <select id="asthma">
-        <option value="nr">Non riportato</option>
-        <option value="yes">Sì</option>
-        <option value="no">No</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="nerd">N-ERD / Intolleranza a FANS (ASA)</label>
-      <select id="nerd">
-        <option value="nr">Non riportato</option>
-        <option value="yes">Sì</option>
-        <option value="no">No</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="anosmia">Anosmia/iposmia significativa</label>
-      <select id="anosmia">
-        <option value="nr">Non riportato</option>
-        <option value="yes">Sì</option>
-        <option value="no">No</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="bloodEos">Eosinofili ematici</label>
-      <select id="bloodEos">
-        <option value="nr">Non riportato</option>
-        <option value="lt150">&lt; 150/μL</option>
-        <option value="150-250">150–249/μL</option>
-        <option value="gte250">≥ 250/μL</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="ige">IgE totali sieriche</label>
-      <select id="ige">
-        <option value="nr">Non riportato</option>
-        <option value="elevated">Elevate (&gt;100 kU/L)</option>
-        <option value="normal">Nella norma</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="recurrence">Recidiva post-chirurgica documentata</label>
-      <select id="recurrence">
-        <option value="nr">Non riportato</option>
-        <option value="yes">Sì</option>
-        <option value="no">No / Prima diagnosi</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="steroids">Steroidoterapia sistemica recente (&lt;4 settimane)</label>
-      <select id="steroids">
-        <option value="nr">Non riportato</option>
-        <option value="yes">Sì</option>
-        <option value="no">No</option>
-      </select>
-    </div>
-  </div>
-
-  <!-- SEZIONE 3: CRITERI BIOLOGICI EPOS 2020 -->
-  <div class="card">
-    <h2 class="card-title">
-      <span>Sezione 3: Criteri Candidabilità Biologici</span>
-      <span class="badge optional">opzionale</span>
-    </h2>
-    <p class="section-description">
-      Secondo EPOS 2020, la candidabilità a terapie biologiche (dupilumab, mepolizumab, omalizumab) richiede CRSwNP severa non controllata con almeno 3 criteri su 5. Spuntare i criteri clinicamente documentati.
-    </p>
-
-    <div class="biologics-criteria-grid">
-
-      <div class="criterion-item">
-        <input type="checkbox" id="crit_snot" name="biologics_criteria">
-        <div class="criterion-label">
-          <strong>Criterio 1 — Impatto su QoL (SNOT-22)</strong>
-          <span>SNOT-22 ≥ 20 nonostante trattamento medico massimale</span>
+      <!-- DATI CASO -->
+      <div class="card">
+        <h2 class="card-title">
+          <span>Dati Caso</span>
+          <span class="badge optional">opzionale</span>
+        </h2>
+        <div class="case-input-row">
+          <div class="form-group">
+            <label for="caseNumber">Numero di caso / accession</label>
+            <input type="text" id="caseNumber" placeholder="es. 2026-12345">
+          </div>
+          <div class="form-group">
+            <label for="caseDate">Data referto</label>
+            <input type="text" id="caseDate" placeholder="es. 21/02/2026">
+          </div>
+          <div class="form-group">
+            <label for="caseSite">Sede prelievo</label>
+            <input type="text" id="caseSite" placeholder="es. etmoide dx">
+          </div>
         </div>
       </div>
 
-      <div class="criterion-item">
-        <input type="checkbox" id="crit_steroids" name="biologics_criteria">
-        <div class="criterion-label">
-          <strong>Criterio 2 — Steroidi sistemici ripetuti</strong>
-          <span>≥ 2 cicli di corticosteroidi sistemici negli ultimi 2 anni, o controindicazione agli steroidi</span>
+      <!-- SEZIONE 1: MORFOLOGIA -->
+      <div class="card">
+        <h2 class="card-title">
+          <span>Sezione 1: Dati Morfologici</span>
+          <span class="badge">obbligatorio</span>
+        </h2>
+        <p class="section-description">
+          Valutazione istologica su EE. Cut-off classificativo: ≥10 eos/HPF per endotipo Type 2 (EPOS 2020).
+        </p>
+
+        <div class="form-group">
+          <label for="eosinophils">
+            Eosinofili/HPF (400×)
+            <span class="label-note">— media nelle aree più infiltrate</span>
+          </label>
+          <div class="eos-input-wrapper">
+            <input type="number" id="eosinophils" min="0" max="500" step="1" placeholder="es. 35" required>
+            <span class="eos-unit">eos/HPF</span>
+          </div>
+          <div class="inline-warning" id="eos-zone-warning"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="countMethod">Metodo di conteggio</label>
+          <select id="countMethod" onchange="checkMethod()">
+            <option value="mean3">Media di 3 HPF nelle zone più infiltrate (raccomandato)</option>
+            <option value="mean5">Media di 5 HPF nelle zone più infiltrate</option>
+            <option value="hotspot">Hotspot singolo (massimo infiltrato)</option>
+            <option value="representative">Campo rappresentativo</option>
+          </select>
+          <div class="inline-warning" id="hotspot-warning" style="display:none;">
+            ⚠️ <strong>Attenzione:</strong> il metodo hotspot tende a sovrastimare sistematicamente l'eosinofilia tissutale. Il referto includerà questa avvertenza.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="stroma">Caratteristiche dello stroma</label>
+          <select id="stroma">
+            <option value="edematous">Edematoso mixoide</option>
+            <option value="fibrotic">Fibroso</option>
+            <option value="mixed">Misto (edematoso e fibroso)</option>
+            <option value="other">Altro/non specificato</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="infiltrate">Infiltrato infiammatorio predominante</label>
+          <select id="infiltrate">
+            <option value="eosinophils">Eosinofili</option>
+            <option value="neutrophils">Neutrofili</option>
+            <option value="plasma">Plasmacellule</option>
+            <option value="lymphocytes">Linfociti</option>
+            <option value="mixed">Misto</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="epithelium">Epitelio di rivestimento</label>
+          <select id="epithelium">
+            <option value="normal">Respiratorio pseudostratificato integro</option>
+            <option value="squamous">Metaplasia squamosa</option>
+            <option value="hyperplasia">Iperplasia ghiandolare</option>
+            <option value="atypia">Atipia/displasia (segnalare separatamente)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Elementi aggiuntivi — morfologia EE</label>
+          <div class="checkbox-group">
+            <div class="checkbox-item">
+              <input type="checkbox" id="fungi" name="features">
+              <label for="fungi">Funghi (colorazioni speciali se necessario)</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="mucin" name="features">
+              <label for="mucin">Mucina allergica (densa con eosinofili)</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="clc" name="features">
+              <label for="clc">Cristalli di Charcot-Leyden</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="degranulation" name="features">
+              <label for="degranulation">Degranulazione eosinofila massiva/extracellulare</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="germinal" name="features">
+              <label for="germinal">Centri germinativi prominenti</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="microabscesses" name="features">
+              <label for="microabscesses">Microascessi neutrofili</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="fibrin" name="features">
+              <label for="fibrin">Depositi di fibrina</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="remodeling" name="features">
+              <label for="remodeling">Remodeling stromale fibroblastico marcato</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="vasculitis" name="features">
+              <label for="vasculitis">Vasculite ⚠️ (escludere ANCA/granulomatosa)</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="heterogeneous" name="features">
+              <label for="heterogeneous">Distribuzione disomogenea (pattern patchy)</label>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="criterion-item">
-        <input type="checkbox" id="crit_recurrence" name="biologics_criteria">
-        <div class="criterion-label">
-          <strong>Criterio 3 — Malattia recidivante post-chirurgica</strong>
-          <span>Recidiva significativa entro 12 mesi da chirurgia funzionale endoscopica (FESS)</span>
+      <!-- SEZIONE 2: DATI CLINICI -->
+      <div class="card">
+        <h2 class="card-title">
+          <span>Sezione 2: Dati Clinici</span>
+          <span class="badge optional">opzionale</span>
+        </h2>
+        <p class="section-description">
+          Per correlazione clinico-patologica e valutazione candidabilità biologici.
+        </p>
+
+        <div class="form-group">
+          <label for="bilateral">Bilateralità clinica</label>
+          <select id="bilateral">
+            <option value="nr">Non riportato</option>
+            <option value="yes">Sì, bilaterale</option>
+            <option value="no">No, unilaterale</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="asthma">Asma comorbida</label>
+          <select id="asthma">
+            <option value="nr">Non riportato</option>
+            <option value="yes">Sì</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="nerd">N-ERD / Intolleranza a FANS (ASA)</label>
+          <select id="nerd">
+            <option value="nr">Non riportato</option>
+            <option value="yes">Sì</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="anosmia">Anosmia/iposmia significativa</label>
+          <select id="anosmia">
+            <option value="nr">Non riportato</option>
+            <option value="yes">Sì</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="bloodEos">Eosinofili ematici</label>
+          <select id="bloodEos">
+            <option value="nr">Non riportato</option>
+            <option value="lt150">&lt; 150/μL</option>
+            <option value="150-250">150–249/μL</option>
+            <option value="gte250">≥ 250/μL</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="ige">IgE totali sieriche</label>
+          <select id="ige">
+            <option value="nr">Non riportato</option>
+            <option value="elevated">Elevate (&gt;100 kU/L)</option>
+            <option value="normal">Nella norma</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="recurrence">Recidiva post-chirurgica documentata</label>
+          <select id="recurrence">
+            <option value="nr">Non riportato</option>
+            <option value="yes">Sì</option>
+            <option value="no">No / Prima diagnosi</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="steroids">Steroidoterapia sistemica recente (&lt;4 sett.)</label>
+          <select id="steroids">
+            <option value="nr">Non riportato</option>
+            <option value="yes">Sì</option>
+            <option value="no">No</option>
+          </select>
         </div>
       </div>
 
-      <div class="criterion-item">
-        <input type="checkbox" id="crit_smell" name="biologics_criteria">
-        <div class="criterion-label">
-          <strong>Criterio 4 — Compromissione olfattiva grave</strong>
-          <span>Anosmia/iposmia grave con VAS olfatto ≤ 2/10</span>
+      <!-- SEZIONE 3: CRITERI BIOLOGICI EPOS 2020 -->
+      <div class="card">
+        <h2 class="card-title">
+          <span>Sezione 3: Criteri Candidabilità Biologici</span>
+          <span class="badge optional">opzionale</span>
+        </h2>
+        <p class="section-description">
+          EPOS 2020: candidabilità richiede ≥3 criteri su 5 in CRSwNP severa non controllata.
+        </p>
+
+        <div class="biologics-criteria-grid">
+          <div class="criterion-item">
+            <input type="checkbox" id="crit_snot" name="biologics_criteria">
+            <div class="criterion-label">
+              <strong>Criterio 1 — Impatto su QoL (SNOT-22)</strong>
+              <span>SNOT-22 ≥ 20 nonostante trattamento medico massimale</span>
+            </div>
+          </div>
+          <div class="criterion-item">
+            <input type="checkbox" id="crit_steroids" name="biologics_criteria">
+            <div class="criterion-label">
+              <strong>Criterio 2 — Steroidi sistemici ripetuti</strong>
+              <span>≥ 2 cicli nell'ultimo 2 anni, o controindicazione</span>
+            </div>
+          </div>
+          <div class="criterion-item">
+            <input type="checkbox" id="crit_recurrence" name="biologics_criteria">
+            <div class="criterion-label">
+              <strong>Criterio 3 — Recidiva post-chirurgica</strong>
+              <span>Recidiva significativa entro 12 mesi da FESS</span>
+            </div>
+          </div>
+          <div class="criterion-item">
+            <input type="checkbox" id="crit_smell" name="biologics_criteria">
+            <div class="criterion-label">
+              <strong>Criterio 4 — Compromissione olfattiva grave</strong>
+              <span>Anosmia/iposmia grave con VAS olfatto ≤ 2/10</span>
+            </div>
+          </div>
+          <div class="criterion-item">
+            <input type="checkbox" id="crit_comorbidity" name="biologics_criteria">
+            <div class="criterion-label">
+              <strong>Criterio 5 — Comorbidità Type 2 significativa</strong>
+              <span>Asma non controllato, dermatite atopica severa, poliposi allergenica</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 0.85rem; font-size: 0.82rem; color: var(--text-muted);">
+          <strong>Nota:</strong> si aggiungono ai requisiti minimi: diagnosi istologica confermata, previo trattamento chirurgico e terapia con corticosteroidi intranasali in corso.
         </div>
       </div>
 
-      <div class="criterion-item">
-        <input type="checkbox" id="crit_comorbidity" name="biologics_criteria">
-        <div class="criterion-label">
-          <strong>Criterio 5 — Comorbidità Type 2 significativa</strong>
-          <span>Asma non controllato, dermatite atopica severa, o poliposi allergenica documentata</span>
+      <!-- BUTTONS -->
+      <div class="button-group">
+        <button type="button" class="primary" onclick="generateReport()">Genera Referto</button>
+        <button type="button" class="secondary" onclick="resetForm()">🔄 Nuovo Caso</button>
+      </div>
+
+    </div><!-- /form-col -->
+
+    <!-- ══════════════ OUTPUT COLUMN ══════════════ -->
+    <div class="output-col">
+
+      <div id="output-placeholder" class="output-placeholder">
+        <p style="font-size:1.5rem; margin-bottom:0.5rem;">🔬</p>
+        <p>Compilare il form e premere<br><strong>Genera Referto</strong> per visualizzare l'output qui.</p>
+      </div>
+
+      <div id="output">
+        <div class="card">
+          <h2 class="card-title">Output Diagnostico</h2>
+
+          <div class="output-section">
+            <div class="output-label">Classificazione Endotipica EPOS 2020</div>
+            <div id="classification"></div>
+            <div id="aerd-alert" class="aerd-alert"></div>
+          </div>
+
+          <hr class="section-divider">
+
+          <div class="output-section">
+            <div class="output-label">Stratificazione Eosinofilia e Rischio Recidiva</div>
+            <div id="prognosis"></div>
+          </div>
+
+          <hr class="section-divider">
+
+          <div class="output-section" id="biologics-section">
+            <div class="output-label">Candidabilità Terapie Biologiche — EPOS 2020</div>
+            <div id="biologics"></div>
+          </div>
+
+          <hr class="section-divider">
+
+          <div class="output-section">
+            <div class="output-label">Testo per Referto Diagnostico</div>
+            <div id="reportText" class="referto"></div>
+            <button class="copy-btn" onclick="copyReport()">📋 Copia testo</button>
+            <div class="print-btn-wrapper">
+              <button class="primary print-btn" onclick="window.print()">🖨️ Stampa / Salva PDF</button>
+              <button class="secondary" onclick="resetForm()" style="padding:0.35rem 0.85rem; font-size:0.8rem;">🔄 Nuovo Caso</button>
+            </div>
+          </div>
+
+          <div class="bibliography">
+            <h3>Bibliografia Essenziale</h3>
+            <ol>
+              <li>Fokkens WJ et al. European Position Paper on Rhinosinusitis and Nasal Polyps 2020. <em>Rhinology</em>. <a href="https://doi.org/10.4193/Rhin20.600" target="_blank">doi:10.4193/Rhin20.600</a></li>
+              <li>Toro MDC et al. Achieving the best method to classify Eosinophilic CRS. <em>Rhinology</em> 2021. <a href="https://doi.org/10.4193/Rhin20.644" target="_blank">doi:10.4193/Rhin20.644</a></li>
+              <li>McHugh T et al. High tissue eosinophilia as a marker for CRS subtype. <em>Int Forum Allergy Rhinol</em> 2020. <a href="https://doi.org/10.1002/alr.22517" target="_blank">doi:10.1002/alr.22517</a></li>
+              <li>Laidlaw TM, Mullol J et al. N-ERD and aspirin-exacerbated respiratory disease. <em>J Allergy Clin Immunol Pract</em> 2021. <a href="https://doi.org/10.1016/j.jaip.2021.01.013" target="_blank">doi:10.1016/j.jaip.2021.01.013</a></li>
+              <li>Bachert C et al. Dupilumab efficacy in severe CRSwNP. <em>J Allergy Clin Immunol</em> 2019. <a href="https://doi.org/10.1016/j.jaci.2019.08.016" target="_blank">doi:10.1016/j.jaci.2019.08.016</a></li>
+            </ol>
+          </div>
         </div>
       </div>
 
-    </div>
-
-    <div style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">
-      <strong>Nota:</strong> questi criteri si aggiungono ai requisiti minimi: diagnosi di CRSwNP confermata istologicamente, trattamento chirurgico precedente (salvo controindicazioni) e terapia con corticosteroidi intranasali in corso. La candidabilità finale è valutazione clinica multidisciplinare.
-    </div>
-  </div>
-
-  <!-- BUTTONS -->
-  <div class="button-group">
-    <button type="button" class="primary" onclick="generateReport()">Genera Referto</button>
-    <button type="button" class="secondary" onclick="resetForm()">🔄 Nuovo Caso</button>
-  </div>
-
-  <!-- OUTPUT -->
-  <div id="output">
-    <div class="card">
-      <h2 class="card-title">Output Diagnostico</h2>
-
-      <div class="output-section">
-        <div class="output-label">Classificazione Endotipica EPOS 2020</div>
-        <div id="classification"></div>
-        <div id="aerd-alert" class="aerd-alert"></div>
-      </div>
-
-      <hr class="section-divider">
-
-      <div class="output-section">
-        <div class="output-label">Stratificazione Eosinofilia e Rischio Recidiva</div>
-        <div id="prognosis"></div>
-      </div>
-
-      <hr class="section-divider">
-
-      <div class="output-section" id="biologics-section">
-        <div class="output-label">Candidabilità Terapie Biologiche — EPOS 2020</div>
-        <div id="biologics"></div>
-      </div>
-
-      <hr class="section-divider">
-
-      <div class="output-section">
-        <div class="output-label">Testo per Referto Diagnostico</div>
-        <div id="reportText" class="referto"></div>
-        <button class="copy-btn" onclick="copyReport()">📋 Copia testo</button>
-        <div class="print-btn-wrapper">
-          <button class="primary print-btn" onclick="window.print()">🖨️ Stampa / Salva PDF</button>
-          <button class="secondary" onclick="resetForm()" style="padding:0.4rem 0.9rem; font-size:0.82rem;">🔄 Nuovo Caso</button>
-        </div>
-      </div>
-
-      <div class="bibliography">
-        <h3>Bibliografia Essenziale</h3>
-        <ol>
-          <li>Fokkens WJ et al. European Position Paper on Rhinosinusitis and Nasal Polyps 2020. <em>Rhinology</em>. <a href="https://doi.org/10.4193/Rhin20.600" target="_blank">doi:10.4193/Rhin20.600</a></li>
-          <li>Toro MDC et al. Achieving the best method to classify Eosinophilic Chronic Rhinosinusitis. <em>Rhinology</em> 2021. <a href="https://doi.org/10.4193/Rhin20.644" target="_blank">doi:10.4193/Rhin20.644</a></li>
-          <li>McHugh T et al. High tissue eosinophilia as a marker for CRS subtype. <em>Int Forum Allergy Rhinol</em> 2020. <a href="https://doi.org/10.1002/alr.22517" target="_blank">doi:10.1002/alr.22517</a></li>
-          <li>Laidlaw TM, Mullol J et al. N-ERD and aspirin-exacerbated respiratory disease. <em>J Allergy Clin Immunol Pract</em> 2021. <a href="https://doi.org/10.1016/j.jaip.2021.01.013" target="_blank">doi:10.1016/j.jaip.2021.01.013</a></li>
-          <li>Bachert C et al. Dupilumab efficacy and safety in patients with severe chronic rhinosinusitis with nasal polyps. <em>J Allergy Clin Immunol</em> 2019. <a href="https://doi.org/10.1016/j.jaci.2019.08.016" target="_blank">doi:10.1016/j.jaci.2019.08.016</a></li>
-        </ol>
-      </div>
-    </div>
-  </div>
+    </div><!-- /output-col -->
+  </div><!-- /main-layout -->
 
   <!-- DISCLAIMER -->
   <div class="disclaimer">
     <strong>⚠️ Disclaimer Medico-Legale</strong>
-    Questo tool è un ausilio diagnostico basato sulle linee guida EPOS 2020. La diagnosi finale deve sempre essere formulata dal patologo sulla base dell'esame morfologico completo del vetrino, della correlazione clinico-patologica e del giudizio professionale. Il conteggio degli eosinofili può essere influenzato da: steroidoterapia recente (sottostima), sede di prelievo bioptico (eterogeneità), metodo di processazione e fissazione del campione. La candidabilità alle terapie biologiche richiede valutazione multidisciplinare clinica completa e non può essere determinata esclusivamente su base istologica. Il patologo segnala i dati morfologici quantitativi; la decisione terapeutica spetta al clinico.
+    Questo tool è un ausilio diagnostico basato sulle linee guida EPOS 2020. La diagnosi finale deve sempre essere formulata dal patologo sulla base dell'esame morfologico completo, della correlazione clinico-patologica e del giudizio professionale. Il conteggio degli eosinofili può essere influenzato da: steroidoterapia recente (sottostima), sede di prelievo (eterogeneità), metodo di processazione. La candidabilità alle terapie biologiche richiede valutazione multidisciplinare clinica e non può essere determinata esclusivamente su base istologica.
   </div>
 
-</div>
+</div><!-- /container -->
 
 <script>
-  // Live eos warning
   document.getElementById('eosinophils').addEventListener('input', function() {
     const val = parseInt(this.value);
     const warning = document.getElementById('eos-zone-warning');
     if (isNaN(val)) { warning.className = 'inline-warning'; return; }
     if (val >= 8 && val <= 12) {
-      warning.textContent = '⚠️ Valore nella zona grigia del cut-off (8–12 eos/HPF): la classificazione Type 2 / non-Type 2 è incerta. Si raccomanda conteggio su più HPF e correlazione clinica.';
+      warning.textContent = '⚠️ Zona grigia del cut-off (8–12 eos/HPF): classificazione Type 2 / non-Type 2 incerta. Conteggio su più HPF e correlazione clinica.';
       warning.classList.add('visible');
     } else if (val >= 45 && val <= 55) {
-      warning.textContent = 'ℹ️ Valore intorno al cut-off prognostico 50 eos/HPF (Toro et al. 2021): soglia associata ad alto rischio di recidiva post-FESS.';
+      warning.textContent = 'ℹ️ Intorno al cut-off prognostico 50 eos/HPF (Toro et al. 2021): soglia associata ad alto rischio di recidiva post-FESS.';
       warning.classList.add('visible');
     } else if (val >= 68 && val <= 72) {
-      warning.textContent = 'ℹ️ Valore intorno al cut-off >70 eos/HPF: soglia proposta da alcuni AA come criterio per endotipo "molto severo" con massima predittività di recidiva.';
+      warning.textContent = 'ℹ️ Intorno al cut-off >70 eos/HPF: soglia proposta per endotipo "molto severo" con massima predittività di recidiva.';
       warning.classList.add('visible');
     } else {
       warning.classList.remove('visible');
@@ -954,25 +944,22 @@
     const caseNumber = document.getElementById('caseNumber').value.trim();
     const caseDate   = document.getElementById('caseDate').value.trim();
     const caseSite   = document.getElementById('caseSite').value.trim();
-
     const countMethod = document.getElementById('countMethod').value;
     const stroma     = document.getElementById('stroma').value;
     const infiltrate = document.getElementById('infiltrate').value;
     const epithelium = document.getElementById('epithelium').value;
 
-    // Morphological extras
-    const fungi        = document.getElementById('fungi').checked;
-    const mucin        = document.getElementById('mucin').checked;
-    const clc          = document.getElementById('clc').checked;
-    const degranulation= document.getElementById('degranulation').checked;
-    const germinal     = document.getElementById('germinal').checked;
+    const fungi         = document.getElementById('fungi').checked;
+    const mucin         = document.getElementById('mucin').checked;
+    const clc           = document.getElementById('clc').checked;
+    const degranulation = document.getElementById('degranulation').checked;
+    const germinal      = document.getElementById('germinal').checked;
     const microabscesses= document.getElementById('microabscesses').checked;
-    const fibrin       = document.getElementById('fibrin').checked;
-    const remodeling   = document.getElementById('remodeling').checked;
-    const vasculitis   = document.getElementById('vasculitis').checked;
-    const heterogeneous= document.getElementById('heterogeneous').checked;
+    const fibrin        = document.getElementById('fibrin').checked;
+    const remodeling    = document.getElementById('remodeling').checked;
+    const vasculitis    = document.getElementById('vasculitis').checked;
+    const heterogeneous = document.getElementById('heterogeneous').checked;
 
-    // Clinical
     const bilateral  = document.getElementById('bilateral').value;
     const asthma     = document.getElementById('asthma').value;
     const nerd       = document.getElementById('nerd').value;
@@ -982,136 +969,103 @@
     const recurrence = document.getElementById('recurrence').value;
     const steroids   = document.getElementById('steroids').value;
 
-    // Biologics criteria
     const crit_snot        = document.getElementById('crit_snot').checked;
     const crit_steroids    = document.getElementById('crit_steroids').checked;
     const crit_recurrence  = document.getElementById('crit_recurrence').checked;
     const crit_smell       = document.getElementById('crit_smell').checked;
     const crit_comorbidity = document.getElementById('crit_comorbidity').checked;
 
-    // ─── CLASSIFICATION ───────────────────────────────────────────
     const isType2 = eosVal >= 10;
 
-    let classHTML = '';
-    if (isType2) {
-      classHTML = `<div class="classification type2">Endotipo Type 2 — CRSwNP eosinofilica (${eosVal} eos/HPF)</div>`;
-    } else {
-      classHTML = `<div class="classification non-type2">Endotipo non-Type 2 (${eosVal} eos/HPF)</div>`;
-    }
+    // CLASSIFICATION
+    let classHTML = isType2
+      ? `<div class="classification type2">Endotipo Type 2 — CRSwNP eosinofilica (${eosVal} eos/HPF)</div>`
+      : `<div class="classification non-type2">Endotipo non-Type 2 (${eosVal} eos/HPF)</div>`;
     document.getElementById('classification').innerHTML = classHTML;
 
-    // Triade AERD
     const aerdBox = document.getElementById('aerd-alert');
     if (isType2 && asthma === 'yes' && nerd === 'yes') {
-      aerdBox.innerHTML = '🔴 <strong>Possibile triade AERD/N-ERD (Samter):</strong> CRSwNP eosinofilica + asma + intolleranza a FANS. Endotipo ad alto rischio di recidiva e frequentemente non responsivo alla sola chirurgia. Sottoporre a valutazione allergologica/pneumologica specialistica. Candidato elettivo a terapia biologica.';
+      aerdBox.innerHTML = '🔴 <strong>Possibile triade AERD/N-ERD (Samter):</strong> CRSwNP eosinofilica + asma + intolleranza a FANS. Endotipo ad alto rischio di recidiva. Candidato elettivo a terapia biologica.';
       aerdBox.classList.add('visible');
     } else if (isType2 && nerd === 'yes') {
-      aerdBox.innerHTML = '🟠 <strong>N-ERD / Intolleranza a FANS documentata:</strong> fortemente associata a endotipo Type 2. Valutare possibile triade AERD anche in assenza di asma diagnosticato formalmente.';
+      aerdBox.innerHTML = '🟠 <strong>N-ERD / Intolleranza a FANS:</strong> fortemente associata a endotipo Type 2. Valutare possibile triade AERD.';
       aerdBox.classList.add('visible');
     } else {
       aerdBox.classList.remove('visible');
     }
 
-    // ─── PROGNOSIS ─────────────────────────────────────────────────
+    // PROGNOSIS
     let progHTML = '<div class="prognosis-box">';
     if (eosVal < 10) {
-      progHTML += '<strong>Eosinofilia assente/bassa (&lt;10 eos/HPF)</strong><br>Prognosi post-chirurgica generalmente favorevole. Rischio di recidiva basso. Endotipo non-Type 2: non candidabile a biologici anti-IL-4/13 o anti-IL-5.';
+      progHTML += '<strong>Eosinofilia assente/bassa (&lt;10 eos/HPF)</strong><br>Prognosi post-chirurgica generalmente favorevole. Endotipo non-Type 2: non candidabile a biologici anti-IL-4/13 o anti-IL-5.';
     } else if (eosVal < 50) {
       progHTML += `<strong>Eosinofilia moderata (${eosVal} eos/HPF, 10–49)</strong><br>Endotipo Type 2 confermato. Rischio moderato di recidiva post-FESS. Potenzialmente candidabile a biologici se criteri clinici soddisfatti.`;
     } else if (eosVal < 70) {
-      progHTML += `<strong>Eosinofilia severa (${eosVal} eos/HPF, 50–69)</strong><br>Endotipo Type 2 severo. Soglia associata in studi osservazionali a maggiore rischio di recidiva post-FESS (Toro et al. 2021). Indicazione forte a valutazione per terapia biologica.<br><em style="font-size:0.85em; color:#718096;">Nota: soglia non universalmente standardizzata — dipende da metodo di conta, dimensioni HPF, casistica di riferimento.</em>`;
+      progHTML += `<strong>Eosinofilia severa (${eosVal} eos/HPF, 50–69)</strong><br>Endotipo Type 2 severo. Associazione osservazionale a maggiore rischio di recidiva post-FESS (Toro et al. 2021). Indicazione forte a valutazione biologica.<br><em style="font-size:0.83em; color:#718096;">Soglia non universalmente standardizzata.</em>`;
     } else {
-      progHTML += `<strong>Eosinofilia molto severa (${eosVal} eos/HPF, ≥70)</strong><br>Endotipo Type 2 molto severo. Soglia proposta in studi osservazionali come associata al più alto rischio di recidiva. Candidato ideale a terapia biologica.<br><em style="font-size:0.85em; color:#718096;">Nota: cut-off non universalmente validato — interpretare nel contesto del metodo di conta e della correlazione clinica.</em>`;
+      progHTML += `<strong>Eosinofilia molto severa (${eosVal} eos/HPF, ≥70)</strong><br>Endotipo Type 2 molto severo. Associazione al più alto rischio di recidiva in studi osservazionali. Candidato ideale a terapia biologica.<br><em style="font-size:0.83em; color:#718096;">Cut-off non universalmente validato.</em>`;
     }
-
-    if (countMethod === 'hotspot') {
-      progHTML += '<br><br><em>⚠️ Metodo hotspot: valore potenzialmente sovrastimato — interpretare con cautela.</em>';
-    }
-
+    if (countMethod === 'hotspot') progHTML += '<br><br><em>⚠️ Metodo hotspot: valore potenzialmente sovrastimato.</em>';
     progHTML += '</div>';
-
-    // Cutoff note
-    progHTML += '<div class="cutoff-note">Cut-off EPOS 2020: ≥10 eos/HPF per classificazione Type 2 (unico cut-off con consenso internazionale). Soglie ≥50 e ≥70 eos/HPF derivano da studi osservazionali con variabilità metodologica; non vanno interpretate come parametri oncologici. Metodo raccomandato: media di 3–5 HPF nelle aree più infiltrate.</div>';
-
+    progHTML += '<div class="cutoff-note">Cut-off EPOS 2020: ≥10 eos/HPF per Type 2 (unico cut-off con consenso internazionale). Soglie ≥50 e ≥70 da studi osservazionali; non parametri oncologici.</div>';
     document.getElementById('prognosis').innerHTML = progHTML;
 
-    // ─── BIOLOGICS ─────────────────────────────────────────────────
-    const totalCriteria   = [crit_snot, crit_steroids, crit_recurrence, crit_smell, crit_comorbidity].filter(Boolean).length;
-    const anyBioClinical  = crit_snot || crit_steroids || crit_recurrence || crit_smell || crit_comorbidity;
-    const biologySection  = document.getElementById('biologics-section');
-
+    // BIOLOGICS
+    const totalCriteria  = [crit_snot, crit_steroids, crit_recurrence, crit_smell, crit_comorbidity].filter(Boolean).length;
+    const anyBioClinical = crit_snot || crit_steroids || crit_recurrence || crit_smell || crit_comorbidity;
     let bioHTML = '';
 
     if (!isType2) {
-      bioHTML = '<div class="prognosis-box">Endotipo non-Type 2: non indicato biologico anti-IL-4/13 (dupilumab) o anti-IL-5 (mepolizumab). Valutare cause alternative di poliposiposi (rinite non allergica, patologia neutrofila, mucoviscidosi).</div>';
+      bioHTML = '<div class="prognosis-box">Endotipo non-Type 2: non indicato biologico anti-IL-4/13 (dupilumab) o anti-IL-5 (mepolizumab). Valutare cause alternative (rinite non allergica, patologia neutrofila, mucoviscidosi).</div>';
     } else if (!anyBioClinical) {
-      // Endotipo Type 2 ma nessun criterio clinico compilato
-      bioHTML = '<div class="prognosis-box">Endotipo Type 2 confermato istologicamente. Dati clinici per criteri EPOS 2020 non compilati: non è possibile calcolare lo score di candidabilità. Completare la Sezione 3 per la valutazione completa.</div>';
+      bioHTML = '<div class="prognosis-box">Endotipo Type 2 confermato. Dati clinici (Sezione 3) non compilati: impossibile calcolare score candidabilità.</div>';
     } else {
-      // Score calcolabile
       let eligClass, eligLabel, eligColor;
-      if (totalCriteria >= 3) {
-        eligClass = 'eligible'; eligLabel = 'Potenzialmente candidabile (≥3/5 criteri)'; eligColor = 'eligible';
-      } else if (totalCriteria === 2) {
-        eligClass = 'borderline'; eligLabel = 'Borderline (2/5 criteri — valutazione multidisciplinare)'; eligColor = 'borderline';
-      } else {
-        eligClass = 'not-eligible'; eligLabel = 'Criteri insufficienti (≤1/5)'; eligColor = 'not-eligible';
-      }
+      if (totalCriteria >= 3)      { eligClass = 'eligible';     eligLabel = 'Potenzialmente candidabile (≥3/5 criteri)'; eligColor = 'eligible'; }
+      else if (totalCriteria === 2){ eligClass = 'borderline';   eligLabel = 'Borderline (2/5 — valutazione multidisciplinare)'; eligColor = 'borderline'; }
+      else                         { eligClass = 'not-eligible'; eligLabel = 'Criteri insufficienti (≤1/5)'; eligColor = 'not-eligible'; }
 
-      bioHTML += `<div class="biologics-score-box ${eligClass}">`;
-      bioHTML += `<div class="score-header">`;
+      bioHTML += `<div class="biologics-score-box ${eligClass}"><div class="score-header">`;
       bioHTML += `<div class="score-number ${eligColor}">${totalCriteria}/5</div>`;
-      bioHTML += `<div class="score-label"><strong>${eligLabel}</strong>Criteri EPOS 2020 soddisfatti</div>`;
-      bioHTML += `</div>`;
+      bioHTML += `<div class="score-label"><strong>${eligLabel}</strong>Criteri EPOS 2020 soddisfatti</div></div>`;
 
       const critDefs = [
-        { id: 'crit_snot',       met: crit_snot,       label: 'SNOT-22 ≥ 20 nonostante terapia massimale' },
-        { id: 'crit_steroids',   met: crit_steroids,   label: '≥2 cicli steroidi sistemici / controindicazione' },
-        { id: 'crit_recurrence', met: crit_recurrence, label: 'Recidiva post-FESS entro 12 mesi' },
-        { id: 'crit_smell',      met: crit_smell,      label: 'Anosmia/iposmia grave (VAS ≤2/10)' },
-        { id: 'crit_comorbidity',met: crit_comorbidity,label: 'Comorbidità Type 2 significativa' },
+        { met: crit_snot,        label: 'SNOT-22 ≥ 20 nonostante terapia massimale' },
+        { met: crit_steroids,    label: '≥2 cicli steroidi sistemici / controindicazione' },
+        { met: crit_recurrence,  label: 'Recidiva post-FESS entro 12 mesi' },
+        { met: crit_smell,       label: 'Anosmia/iposmia grave (VAS ≤2/10)' },
+        { met: crit_comorbidity, label: 'Comorbidità Type 2 significativa' },
       ];
 
       bioHTML += '<ul class="criteria-list">';
       critDefs.forEach(c => {
-        const statusClass = c.met ? 'met' : 'not-met';
-        const statusIcon  = c.met ? '✓' : '✗';
-        bioHTML += `<li>
-          <span class="criterion-status ${statusClass}">${statusIcon}</span>
-          <span>${c.label}</span>
-        </li>`;
+        bioHTML += `<li><span class="criterion-status ${c.met ? 'met' : 'not-met'}">${c.met ? '✓' : '✗'}</span><span>${c.label}</span></li>`;
       });
       bioHTML += '</ul>';
 
-      // Biologico suggerito
       if (totalCriteria >= 3) {
-        bioHTML += '<div style="margin-top:0.75rem; font-size:0.88rem;">';
+        bioHTML += '<div style="margin-top:0.65rem; font-size:0.86rem;">';
         if (bloodEos === 'gte250' && asthma === 'yes') {
-          bioHTML += '💡 <strong>Profilo compatibile con dupilumab o mepolizumab</strong> (eosinofilia ematica ≥250/μL + asma). La scelta del biologico richiede valutazione allergologica/pneumologica.';
+          bioHTML += '💡 <strong>Profilo compatibile con dupilumab o mepolizumab</strong> (eosinofilia ≥250/μL + asma). Scelta da valutazione specialistica.';
         } else if (bloodEos === 'gte250') {
-          bioHTML += '💡 <strong>Eosinofilia ematica ≥250/μL</strong>: profilo compatibile con dupilumab o mepolizumab.';
+          bioHTML += '💡 <strong>Eosinofilia ≥250/μL</strong>: profilo compatibile con dupilumab o mepolizumab.';
         } else {
           bioHTML += '💡 Profilo compatibile con dupilumab. Per mepolizumab verificare eosinofilia ematica (cut-off ≥150/μL con asma).';
         }
         bioHTML += '</div>';
       }
-
-      bioHTML += `<p class="biologics-note">La candidabilità definitiva richiede: diagnosi istologica confermata, previo trattamento chirurgico (salvo controindicazioni), terapia cortisonica intranasale in corso, e valutazione multidisciplinare ORL + allergologia/pneumologia.</p>`;
-      bioHTML += '</div>';
+      bioHTML += `<p class="biologics-note">Candidabilità definitiva richiede valutazione multidisciplinare ORL + allergologia/pneumologia.</p></div>`;
     }
 
-    // Tissue eosinophilia as supporting criterion
-    if (isType2) {
-      const eosBloodText = bloodEos === 'gte250' ? '✓ Eosinofili ematici ≥250/μL: criterio aggiuntivo soddisfatto.' :
-                           bloodEos === '150-250' ? 'ℹ️ Eosinofili ematici 150–249/μL: rilevante per mepolizumab in co-indicazione asma.' : '';
-      if (eosBloodText) {
-        bioHTML += `<div style="margin-top:0.5rem; font-size:0.85rem; color:var(--text-secondary);">${eosBloodText}</div>`;
-      }
+    if (isType2 && bloodEos === 'gte250') {
+      bioHTML += `<div style="margin-top:0.4rem; font-size:0.82rem; color:var(--text-secondary);">✓ Eosinofili ematici ≥250/μL: criterio aggiuntivo soddisfatto.</div>`;
+    } else if (isType2 && bloodEos === '150-250') {
+      bioHTML += `<div style="margin-top:0.4rem; font-size:0.82rem; color:var(--text-secondary);">ℹ️ Eosinofili ematici 150–249/μL: rilevante per mepolizumab in co-indicazione asma.</div>`;
     }
 
     document.getElementById('biologics').innerHTML = bioHTML;
 
-    // ─── REPORT TEXT ───────────────────────────────────────────────
+    // REPORT TEXT
     let report = '';
     if (caseNumber || caseDate || caseSite) {
       if (caseNumber) report += `Caso: ${caseNumber}\n`;
@@ -1121,72 +1075,64 @@
     }
 
     report += 'DIAGNOSI:\n';
-    if (isType2) {
-      report += `Polipo nasosinusale infiammatorio con marcata eosinofilia tissutale (CRSwNP eosinofilica, endotipo Type 2 secondo EPOS 2020).`;
-    } else {
-      report += `Polipo nasosinusale infiammatorio (endotipo non-Type 2 secondo EPOS 2020, eosinofilia tissutale assente/bassa).`;
-    }
+    report += isType2
+      ? `Polipo nasosinusale infiammatorio con marcata eosinofilia tissutale (CRSwNP eosinofilica, endotipo Type 2 secondo EPOS 2020).`
+      : `Polipo nasosinusale infiammatorio (endotipo non-Type 2 secondo EPOS 2020, eosinofilia tissutale assente/bassa).`;
 
     report += '\n\nVALUTAZIONE ISTOLOGICA (EE):\n';
     report += `- Eosinofili: ${eosVal} eos/HPF (400×), ${getMethodText(countMethod)}`;
-    if (countMethod === 'hotspot') report += ' — NOTA: metodo hotspot; valore potenzialmente sovrastimato rispetto alla media dell\'infiltrato';
+    if (countMethod === 'hotspot') report += ' — NOTA: metodo hotspot; valore potenzialmente sovrastimato';
     report += '\n';
-    if (heterogeneous) report += `- Distribuzione degli eosinofili disomogenea (pattern patchy); il valore riportato è quello delle aree a maggiore infiltrazione\n`;
+    if (heterogeneous) report += `- Distribuzione disomogenea (pattern patchy); valore riferito alle aree a maggiore infiltrazione\n`;
     report += `- Stroma: ${getStromaText(stroma)}\n`;
-    report += `- Infiltrato infiammatorio predominante: ${getInfiltrateText(infiltrate)}\n`;
-    report += `- Epitelio di rivestimento: ${getEpitheliumText(epithelium)}\n`;
+    report += `- Infiltrato predominante: ${getInfiltrateText(infiltrate)}\n`;
+    report += `- Epitelio: ${getEpitheliumText(epithelium)}\n`;
 
     const extras = [];
-    if (clc)           extras.push('cristalli di Charcot-Leyden');
-    if (degranulation) extras.push('degranulazione eosinofila extracellulare massiva');
-    if (mucin)         extras.push('mucina allergica (densa, ricca di eosinofili)');
-    if (fungi)         extras.push('elementi fungini (indicare colorazione speciale)');
-    if (germinal)      extras.push('centri germinativi prominenti');
-    if (microabscesses)extras.push('microascessi neutrofili');
-    if (fibrin)        extras.push('depositi di fibrina');
-    if (remodeling)    extras.push('remodeling stromale fibroblastico marcato');
-    if (vasculitis)    extras.push('vasculite — ESCLUDERE patologia granulomatosa/ANCA-associata (GPA, EGPA): correlazione clinica e sierologica necessaria');
+    if (clc)            extras.push('cristalli di Charcot-Leyden');
+    if (degranulation)  extras.push('degranulazione eosinofila extracellulare massiva');
+    if (mucin)          extras.push('mucina allergica (densa, ricca di eosinofili)');
+    if (fungi)          extras.push('elementi fungini (indicare colorazione speciale)');
+    if (germinal)       extras.push('centri germinativi prominenti');
+    if (microabscesses) extras.push('microascessi neutrofili');
+    if (fibrin)         extras.push('depositi di fibrina');
+    if (remodeling)     extras.push('remodeling stromale fibroblastico marcato');
+    if (vasculitis)     extras.push('vasculite — ESCLUDERE patologia granulomatosa/ANCA-associata (GPA, EGPA)');
     if (extras.length) report += `- Reperti aggiuntivi: ${extras.join('; ')}\n`;
 
-    // Clinical correlation
     const clinObs = [];
     if (bilateral === 'yes' && isType2) clinObs.push('bilateralità clinica coerente con endotipo Type 2');
-    if (asthma === 'yes')   clinObs.push('asma comorbida (associazione tipica di CRSwNP eosinofilica)');
+    if (asthma === 'yes')   clinObs.push('asma comorbida');
     if (nerd === 'yes')     clinObs.push('N-ERD / intolleranza a FANS documentata');
     if (asthma === 'yes' && nerd === 'yes' && isType2) clinObs.push('triade AERD/N-ERD (Samter) — valutazione specialistica consigliata');
     if (anosmia === 'yes')  clinObs.push('anosmia/iposmia significativa');
     if (recurrence === 'yes') clinObs.push('recidiva documentata post-FESS');
     if (bloodEos === 'gte250') clinObs.push('eosinofilia ematica ≥250/μL');
-    if (steroids === 'yes') clinObs.push('NOTA: steroidoterapia sistemica recente — il conteggio degli eosinofili potrebbe essere sottostimato');
+    if (steroids === 'yes') clinObs.push('NOTA: steroidoterapia sistemica recente — conteggio eosinofili potenzialmente sottostimato');
 
     if (clinObs.length) {
       report += '\nCORRELAZIONE CLINICO-PATOLOGICA:\n';
       clinObs.forEach(o => report += `- ${o}\n`);
     }
 
-    // Classification summary
     report += '\nCLASSIFICAZIONE FINALE (EPOS 2020):\n';
     if (isType2) {
-      if (eosVal >= 70)      report += `- Endotipo Type 2 (eosinofilia molto severa, ≥70 eos/HPF) — associazione in letteratura a rischio elevato di recidiva post-chirurgica\n`;
-      else if (eosVal >= 50) report += `- Endotipo Type 2 (eosinofilia severa, 50–69 eos/HPF) — associazione in studi osservazionali a rischio aumentato di recidiva\n`;
+      if (eosVal >= 70)      report += `- Endotipo Type 2 (eosinofilia molto severa, ≥70 eos/HPF)\n`;
+      else if (eosVal >= 50) report += `- Endotipo Type 2 (eosinofilia severa, 50–69 eos/HPF)\n`;
       else                   report += `- Endotipo Type 2 (10–49 eos/HPF)\n`;
-
-      if (totalCriteria >= 3) {
-        report += `- Criteri clinici per terapia biologica: ${totalCriteria}/5 soddisfatti — si rimanda a valutazione multidisciplinare\n`;
-      }
+      if (totalCriteria >= 3) report += `- Criteri biologici: ${totalCriteria}/5 soddisfatti — valutazione multidisciplinare\n`;
     } else {
       report += `- Endotipo non-Type 2 (${eosVal} eos/HPF)\n`;
     }
 
-    // Medico-legal sentence
     report += '\nNOTA PATOLOGICA:\n';
-    report += `La presenza di eosinofilia tissutale rappresenta un criterio morfologico di supporto alla classificazione endotipica; non abilita di per sé alla terapia biologica. L'istologia certifica l'endotipo; la candidabilità al trattamento richiede valutazione clinica multidisciplinare.\n`;
+    report += `L'eosinofilia tissutale rappresenta criterio morfologico di supporto alla classificazione endotipica. L'istologia certifica l'endotipo; la candidabilità al trattamento biologico richiede valutazione clinica multidisciplinare.\n`;
 
     document.getElementById('reportText').textContent = report;
 
-    // Show output
+    document.getElementById('output-placeholder').style.display = 'none';
     document.getElementById('output').classList.add('visible');
-    document.getElementById('output').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('output').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function copyReport() {
@@ -1221,6 +1167,7 @@
     document.getElementById('eos-zone-warning').classList.remove('visible');
     document.getElementById('hotspot-warning').style.display = 'none';
     document.getElementById('output').classList.remove('visible');
+    document.getElementById('output-placeholder').style.display = '';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 </script>
