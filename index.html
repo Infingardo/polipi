@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tool Diagnostico - Polipi Nasosinusali (CRSwNP) v2.6</title>
+  <title>Tool Diagnostico - Polipi Nasosinusali (CRSwNP) v2.16</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
@@ -595,7 +595,7 @@
 
   <header>
     <h1>Tool Diagnostico — Polipi Nasosinusali</h1>
-    <p class="subtitle">Classificazione endotipica EPOS 2020 · Criteri candidabilità terapie biologiche · Triade AERD/N-ERD · v2.6</p>
+    <p class="subtitle">Classificazione endotipica EPOS 2020 · Criteri candidabilità terapie biologiche · Triade AERD/N-ERD · v2.16</p>
   </header>
 
   <div class="main-layout">
@@ -609,36 +609,65 @@
           <span>Sezione 1: Dati Morfologici</span>
           <span class="badge">obbligatorio</span>
         </h2>
-        <p class="section-description">
-          Valutazione istologica su EE. Cut-off classificativo: ≥10 eos/HPF per endotipo Type 2 (EPOS 2020).
-          Il cut-off è un marker pratico soggetto a variabilità legata al metodo di conteggio, eterogeneità del campione,
-          sede di prelievo e terapia steroidea recente.
-        </p>
 
         <div class="form-group">
-          <label for="eosinophils">
-            Eosinofili/HPF (400×)
-            <span class="label-note">— media nelle aree più infiltrate</span>
-          </label>
-          <div class="eos-input-wrapper">
-            <input type="number" id="eosinophils" min="0" max="500" step="1" placeholder="es. 35" required>
-            <span class="eos-unit">eos/HPF</span>
-          </div>
-          <div class="inline-warning" id="eos-zone-warning"></div>
+          <label for="caseLabel">Etichetta campione <span class="label-note">— es. A, B oppure A,B,C</span></label>
+          <input type="text" id="caseLabel" placeholder="" style="max-width:200px;">
         </div>
 
         <div class="form-group">
-          <label for="countMethod">Metodo di conteggio</label>
-          <select id="countMethod" onchange="checkMethod()">
-            <option value="mean3">Media di 3 HPF nelle zone più infiltrate (raccomandato)</option>
-            <option value="mean5">Media di 5 HPF nelle zone più infiltrate</option>
-            <option value="hotspot">Hotspot singolo (massimo infiltrato)</option>
-            <option value="representative">Campo rappresentativo</option>
+          <label for="specimenType">Tipo di campione</label>
+          <select id="specimenType" onchange="onSpecimenChange()">
+            <option value="polyp">Polipo naso-sinusale</option>
+            <option value="mucosa">Frammenti di mucosa respiratoria</option>
+            <option value="reah">REAH (amartoma epiteliale respiratorio adenomatoide)</option>
+            <option value="hamartoma">Amartoma siero-mucinoso</option>
           </select>
-          <div class="inline-warning" id="hotspot-warning" style="display:none;">
-            ⚠️ <strong>Attenzione:</strong> il metodo hotspot tende a sovrastimare sistematicamente l'eosinofilia tissutale. Il referto includerà questa avvertenza.
-          </div>
         </div>
+
+        <div class="form-group">
+          <label for="infiltrate">Cellula infiammatoria principale</label>
+          <select id="infiltrate" onchange="onInfiltrateChange()">
+            <option value="eosinophils">Eosinofili</option>
+            <option value="mixed">Misto (eosinofili + linfociti/plasmacellule)</option>
+            <option value="neutrophils">Neutrofili</option>
+            <option value="plasma">Plasmacellule ⚠️</option>
+            <option value="lymphocytes">Linfociti ⚠️</option>
+          </select>
+        </div>
+
+        <!-- Blocco eosinofili: visibile solo se infiltrato eosinofilico o misto -->
+        <div id="eos-block">
+          <p class="section-description" style="margin-top:-0.25rem;">
+            Cut-off classificativo: ≥10 eos/HPF per endotipo Type 2 (EPOS 2020).
+            Marker pratico soggetto a variabilità da metodo di conteggio, eterogeneità del campione, sede e terapia steroidea recente.
+          </p>
+
+          <div class="form-group">
+            <label for="eosinophils">
+              Eosinofili/HPF (400×)
+              <span class="label-note">— media nelle aree più infiltrate</span>
+            </label>
+            <div class="eos-input-wrapper">
+              <input type="number" id="eosinophils" min="0" max="500" step="1" placeholder="">
+              <span class="eos-unit">eos/HPF</span>
+            </div>
+            <div class="inline-warning" id="eos-zone-warning"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="countMethod">Metodo di conteggio</label>
+            <select id="countMethod" onchange="checkMethod()">
+              <option value="mean3">Media di 3 HPF nelle zone più infiltrate (raccomandato)</option>
+              <option value="mean5">Media di 5 HPF nelle zone più infiltrate</option>
+              <option value="hotspot">Hotspot singolo (massimo infiltrato)</option>
+              <option value="representative">Campo rappresentativo</option>
+            </select>
+            <div class="inline-warning" id="hotspot-warning" style="display:none;">
+              ⚠️ <strong>Attenzione:</strong> il metodo hotspot tende a sovrastimare sistematicamente l'eosinofilia tissutale. Il referto includerà questa avvertenza.
+            </div>
+          </div>
+        </div><!-- /eos-block -->
 
         <div class="form-group">
           <label for="stroma">Caratteristiche dello stroma</label>
@@ -647,17 +676,6 @@
             <option value="fibrotic">Fibroso</option>
             <option value="mixed">Misto (edematoso e fibroso)</option>
             <option value="other">Altro/non specificato</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="infiltrate">Infiltrato infiammatorio predominante</label>
-          <select id="infiltrate">
-            <option value="eosinophils">Eosinofili</option>
-            <option value="neutrophils">Neutrofili</option>
-            <option value="plasma">Plasmacellule</option>
-            <option value="lymphocytes">Linfociti</option>
-            <option value="mixed">Misto</option>
           </select>
         </div>
 
@@ -716,10 +734,16 @@
             </div>
           </div>
         </div>
+      </div><!-- /card sezione 1 -->
+
+      <!-- BUTTONS — dopo morfologia -->
+      <div class="button-group">
+        <button type="button" class="primary" onclick="generateReport()">Genera Referto</button>
+        <button type="button" class="secondary" onclick="resetForm()">🔄 Nuovo Caso</button>
       </div>
 
       <!-- SEZIONE 2: DATI CLINICI -->
-      <div class="card">
+      <div class="card" id="sezione2-card">
         <h2 class="card-title">
           <span>Sezione 2: Dati Clinici</span>
           <span class="badge optional">opzionale</span>
@@ -803,7 +827,7 @@
       </div>
 
       <!-- SEZIONE 3: CRITERI BIOLOGICI EPOS 2020 -->
-      <div class="card">
+      <div class="card" id="sezione3-card">
         <h2 class="card-title">
           <span>Sezione 3: Criteri Candidabilità Biologici</span>
           <span class="badge optional">opzionale</span>
@@ -853,12 +877,6 @@
         <div style="margin-top: 0.85rem; font-size: 0.82rem; color: var(--text-muted);">
           <strong>Nota:</strong> si aggiungono ai requisiti minimi: diagnosi istologica confermata, previo trattamento chirurgico e terapia con corticosteroidi intranasali in corso.
         </div>
-      </div>
-
-      <!-- BUTTONS -->
-      <div class="button-group">
-        <button type="button" class="primary" onclick="generateReport()">Genera Referto</button>
-        <button type="button" class="secondary" onclick="resetForm()">🔄 Nuovo Caso</button>
       </div>
 
     </div><!-- /form-col -->
@@ -938,6 +956,31 @@
 </div><!-- /container -->
 
 <script>
+  function onSpecimenChange() {
+    const val = document.getElementById('specimenType').value;
+    const isEposApplicable = (val === 'polyp');
+    // Mostra/nasconde blocco eosinofili in base a specimen E infiltrato
+    const infVal = document.getElementById('infiltrate').value;
+    const needsEos = isEposApplicable && (infVal === 'eosinophils' || infVal === 'mixed' || infVal === 'neutrophils');
+    document.getElementById('eos-block').style.display = needsEos ? 'block' : 'none';
+    // Sezioni 2 e 3 solo per polipi
+    ['sezione2-card','sezione3-card'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = isEposApplicable ? 'block' : 'none';
+    });
+  }
+
+  function onInfiltrateChange() {
+    const val = document.getElementById('infiltrate').value;
+    const needsEos = (val === 'eosinophils' || val === 'mixed' || val === 'neutrophils');
+    document.getElementById('eos-block').style.display = needsEos ? 'block' : 'none';
+    if (!needsEos) {
+      document.getElementById('eosinophils').value = '0';
+      document.getElementById('eos-zone-warning').classList.remove('visible');
+      document.getElementById('hotspot-warning').style.display = 'none';
+    }
+  }
+
   document.getElementById('eosinophils').addEventListener('input', function() {
     const val = parseInt(this.value);
     const warning = document.getElementById('eos-zone-warning');
@@ -962,15 +1005,18 @@
   }
 
   function generateReport() {
-    const eosVal = parseInt(document.getElementById('eosinophils').value);
-    if (isNaN(eosVal) || eosVal < 0) {
+    const specimenType = document.getElementById('specimenType').value;
+    const isMucosa = specimenType !== 'polyp';
+    const infiltrate = document.getElementById('infiltrate').value;
+    const needsEos = (infiltrate === 'eosinophils' || infiltrate === 'mixed' || infiltrate === 'neutrophils');
+    const eosVal = needsEos ? parseInt(document.getElementById('eosinophils').value) : 0;
+    if (needsEos && (isNaN(eosVal) || eosVal < 0)) {
       alert('Inserire un valore numerico valido per gli eosinofili/HPF');
       return;
     }
 
     const countMethod = document.getElementById('countMethod').value;
     const stroma      = document.getElementById('stroma').value;
-    const infiltrate  = document.getElementById('infiltrate').value;
     const epithelium  = document.getElementById('epithelium').value;
 
     const fungi          = document.getElementById('fungi').checked;
@@ -1003,7 +1049,19 @@
 
     // ── RED FLAG ALERTS ──
     let hardStopsHTML = '';
+    const hasNonEosinophilicInfiltrate = (infiltrate === 'plasma' || infiltrate === 'lymphocytes');
     const hasCriticalRedFlag = vasculitis || epithelium === 'atypia';
+
+    if (hasNonEosinophilicInfiltrate) {
+      const infiltrateLabel = infiltrate === 'plasma' ? 'plasmacellulare' : 'linfocitario';
+      const ddx = infiltrate === 'plasma'
+        ? 'IgG4-RD sinonasale, plasmocitoma extramidollare, linfoma MALT, rinoscleroma.'
+        : 'Linfoma sinonasale (NK/T, DLBCL), linfoma MALT, sarcoidosi.';
+      hardStopsHTML += `<div class="unilateral-alert">
+        <strong>⚠️ Infiltrato predominante ${infiltrateLabel} — endotipo non-Type 2</strong>
+        Profilo non eosinofilico: endotipo non-Type 2 per definizione. In presenza di infiltrato ${infiltrateLabel} prevalente, considerare: ${ddx}
+      </div>`;
+    }
 
     if (vasculitis) {
       hardStopsHTML += `<div class="red-flag">
@@ -1043,13 +1101,15 @@
 
     // ── MIMICS BOX (solo se red flags attive) ──
     let mimicsSection = document.getElementById('mimics-section');
-    if (vasculitis || epithelium === 'atypia' || bilateral === 'no' || (fungi && mucin)) {
+    if (vasculitis || epithelium === 'atypia' || bilateral === 'no' || (fungi && mucin) || hasNonEosinophilicInfiltrate) {
       let mimicsHTML = '<hr class="section-divider"><div class="output-section"><div class="output-label">Diagnosi Differenziali da Considerare Prioritariamente</div><div class="afrs-alert" style="display:block;">';
       const mimics = [];
-      if (bilateral === 'no') mimics.push('Papilloma invertito sinonasale', 'Polipo antrocoanale', 'Neoplasia sinonasale (carcinoma, adenocarcinoma, ecc.)');
-      if (vasculitis)         mimics.push('EGPA (granulomatosi eosinofilica con poliangioite)', 'GPA (granulomatosi con poliangioite)');
-      if (fungi && mucin)     mimics.push('Rinosinusite fungina allergica (AFRS)');
-      if (epithelium === 'atypia') mimics.push('Carcinoma in situ / displasia epiteliale sinonasale', 'Neoplasia a cellule basaloidi o squamose');
+      if (infiltrate === 'plasma')     mimics.push('IgG4-RD sinonasale', 'Plasmocitoma extramidollare', 'Linfoma MALT', 'Rinoscleroma (<em>Klebsiella rhinoscleromatis</em>)', 'Patologia ANCA/reumatoide');
+      if (infiltrate === 'lymphocytes') mimics.push('Linfoma sinonasale (NK/T, DLBCL)', 'Linfoma MALT', 'Sarcoidosi', 'Granulomatosi linfomatoide');
+      if (bilateral === 'no')          mimics.push('Papilloma invertito sinonasale', 'Polipo antrocoanale', 'Neoplasia sinonasale (carcinoma, adenocarcinoma, ecc.)');
+      if (vasculitis)                  mimics.push('EGPA (granulomatosi eosinofilica con poliangioite)', 'GPA (granulomatosi con poliangioite)');
+      if (fungi && mucin)              mimics.push('Rinosinusite fungina allergica (AFRS)');
+      if (epithelium === 'atypia')     mimics.push('Carcinoma in situ / displasia epiteliale sinonasale', 'Neoplasia a cellule basaloidi o squamose');
       mimicsHTML += mimics.map(m => `• ${m}`).join('<br>');
       mimicsHTML += '<br><em style="font-size:0.8em;margin-top:0.4rem;display:block;">Lista orientativa, non esaustiva. Correlare con clinica, endoscopia, imaging e ulteriori livelli/colorazioni.</em></div></div>';
       mimicsSection.innerHTML = mimicsHTML;
@@ -1059,8 +1119,13 @@
 
     // ── CLASSIFICATION ──
     let classHTML = '';
-    if (hasCriticalRedFlag) {
-      classHTML = `<div class="classification non-type2">Classificazione endotipica sospesa — non appropriata in presenza di reperti istologici critici. Vedi red flag.</div>`;
+    if (isMucosa) {
+      classHTML = `<div class="classification non-type2" style="color:var(--text-muted);border-color:var(--border);">Classificazione endotipica EPOS non applicabile — campione: frammenti di mucosa respiratoria</div>`;
+    } else if (hasCriticalRedFlag) {
+      classHTML = `<div class="classification non-type2">Classificazione endotipica sospesa — reperti istologici critici. Vedi red flag.</div>`;
+    } else if (hasNonEosinophilicInfiltrate) {
+      const infiltrateLabel = infiltrate === 'plasma' ? 'plasmacellulare' : 'linfocitario';
+      classHTML = `<div class="classification non-type2">Endotipo non-Type 2 — infiltrato predominante ${infiltrateLabel}</div>`;
     } else {
       classHTML = isType2
         ? `<div class="classification type2">Endotipo Type 2 — CRSwNP eosinofilica (${eosVal} eos/HPF)</div>`
@@ -1069,10 +1134,10 @@
     document.getElementById('classification').innerHTML = classHTML;
 
     const aerdBox = document.getElementById('aerd-alert');
-    if (!hasCriticalRedFlag && isType2 && asthma === 'yes' && nerd === 'yes') {
+    if (!isMucosa && !hasCriticalRedFlag && isType2 && asthma === 'yes' && nerd === 'yes') {
       aerdBox.innerHTML = '🔴 <strong>Possibile triade AERD/N-ERD (Samter):</strong> CRSwNP eosinofilica + asma + intolleranza a FANS. Endotipo ad alto rischio di recidiva. Valutazione specialistica raccomandata.';
       aerdBox.classList.add('visible');
-    } else if (!hasCriticalRedFlag && isType2 && nerd === 'yes') {
+    } else if (!isMucosa && !hasCriticalRedFlag && isType2 && nerd === 'yes') {
       aerdBox.innerHTML = '🟠 <strong>N-ERD / Intolleranza a FANS:</strong> fortemente associata a endotipo Type 2. Valutare possibile triade AERD.';
       aerdBox.classList.add('visible');
     } else {
@@ -1081,19 +1146,24 @@
     }
 
     // ── PROGNOSIS ──
-    let progHTML = '<div class="prognosis-box">';
-    if (eosVal < 10) {
-      progHTML += '<strong>Eosinofilia assente/bassa (&lt;10 eos/HPF)</strong><br>Prognosi post-chirurgica generalmente favorevole. Profilo istologico non suggestivo per infiammazione Type 2; il razionale per biologici anti-IL-4/13 o anti-IL-5 appare debole, da confermare clinicamente.';
-    } else if (eosVal < 50) {
-      progHTML += `<strong>Eosinofilia moderata (${eosVal} eos/HPF, 10–49)</strong><br>Endotipo Type 2 supportato morfologicamente. Rischio moderato di recidiva post-FESS in studi osservazionali. Potenzialmente candidabile a biologici se criteri clinici soddisfatti.`;
-    } else if (eosVal < 70) {
-      progHTML += `<strong>Eosinofilia elevata (${eosVal} eos/HPF, 50–69)</strong><br>Valori elevati associati in studi osservazionali a maggior rischio di recidiva post-FESS (Toro et al. 2021). Il profilo può orientare a valutazione specialistica per terapia biologica.<br><em style="font-size:0.83em; color:#718096;">Soglia non universalmente standardizzata; interpretare in contesto clinico.</em>`;
+    let progHTML = '';
+    if (isMucosa) {
+      progHTML = '<div class="prognosis-box" style="color:var(--text-muted);">Non applicabile — campione non polipoide.</div>';
     } else {
-      progHTML += `<strong>Eosinofilia molto elevata (${eosVal} eos/HPF, ≥70)</strong><br>Valori elevati associati in studi osservazionali al più alto rischio di recidiva. Il profilo istologico può orientare a discussione specialistica per terapia biologica.<br><em style="font-size:0.83em; color:#718096;">Cut-off non universalmente validato; non interpretare come parametro oncologico.</em>`;
+      progHTML = '<div class="prognosis-box">';
+      if (eosVal < 10) {
+        progHTML += '<strong>Eosinofilia assente/bassa (&lt;10 eos/HPF)</strong><br>Prognosi post-chirurgica generalmente favorevole. Profilo istologico non suggestivo per infiammazione Type 2; il razionale per biologici anti-IL-4/13 o anti-IL-5 appare debole, da confermare clinicamente.';
+      } else if (eosVal < 50) {
+        progHTML += `<strong>Eosinofilia moderata (${eosVal} eos/HPF, 10–49)</strong><br>Endotipo Type 2 supportato morfologicamente. Rischio moderato di recidiva post-FESS in studi osservazionali. Potenzialmente candidabile a biologici se criteri clinici soddisfatti.`;
+      } else if (eosVal < 70) {
+        progHTML += `<strong>Eosinofilia elevata (${eosVal} eos/HPF, 50–69)</strong><br>Valori elevati associati in studi osservazionali a maggior rischio di recidiva post-FESS (Toro et al. 2021). Il profilo può orientare a valutazione specialistica per terapia biologica.<br><em style="font-size:0.83em; color:#718096;">Soglia non universalmente standardizzata; interpretare in contesto clinico.</em>`;
+      } else {
+        progHTML += `<strong>Eosinofilia molto elevata (${eosVal} eos/HPF, ≥70)</strong><br>Valori elevati associati in studi osservazionali al più alto rischio di recidiva. Il profilo istologico può orientare a discussione specialistica per terapia biologica.<br><em style="font-size:0.83em; color:#718096;">Cut-off non universalmente validato; non interpretare come parametro oncologico.</em>`;
+      }
+      if (countMethod === 'hotspot') progHTML += '<br><br><em>⚠️ Metodo hotspot: valore potenzialmente sovrastimato.</em>';
+      progHTML += '</div>';
+      progHTML += '<div class="cutoff-note">Cut-off EPOS 2020: ≥10 eos/HPF per Type 2 (unico con consenso internazionale). Soglie ≥50 e ≥70 derivano da studi osservazionali con variabilità metodologica; non costituiscono parametri oncologici né soglie obbliganti.</div>';
     }
-    if (countMethod === 'hotspot') progHTML += '<br><br><em>⚠️ Metodo hotspot: valore potenzialmente sovrastimato.</em>';
-    progHTML += '</div>';
-    progHTML += '<div class="cutoff-note">Cut-off EPOS 2020: ≥10 eos/HPF per Type 2 (unico con consenso internazionale). Soglie ≥50 e ≥70 derivano da studi osservazionali con variabilità metodologica; non costituiscono parametri oncologici né soglie obbliganti.</div>';
     document.getElementById('prognosis').innerHTML = progHTML;
 
     // ── BIOLOGICS ──
@@ -1101,7 +1171,9 @@
     const anyBioClinical = crit_snot || crit_steroids || crit_recurrence || crit_smell || crit_comorbidity;
     let bioHTML = '';
 
-    if (hasCriticalRedFlag) {
+    if (isMucosa) {
+      bioHTML = '<div class="prognosis-box" style="color:var(--text-muted);">Non applicabile — classificazione endotipica riservata ai polipi naso-sinusali.</div>';
+    } else if (hasCriticalRedFlag) {
       bioHTML = '<div class="prognosis-box" style="border-left-color:var(--danger);">Valutazione della candidabilità ai biologici non appropriata in presenza di reperti istologici critici (vasculite e/o atipia epiteliale). Sezione disattivata fino a chiarimento diagnostico definitivo.</div>';
     } else if (!isType2) {
       bioHTML = '<div class="prognosis-box">Profilo istologico non suggestivo per infiammazione Type 2. Il razionale per biologici anti-IL-4/13 (dupilumab) o anti-IL-5 (mepolizumab) appare debole sul piano morfologico; da confermare clinicamente. Valutare cause alternative (rinite non allergica, patologia neutrofila, mucoviscidosi).</div>';
@@ -1163,82 +1235,155 @@
 
     document.getElementById('biologics').innerHTML = bioHTML;
 
-    // ── REPORT TEXT (stile LIS) ──
+    // ── REPORT TEXT (stile narrativo LIS) ──
+    const caseLabel = document.getElementById('caseLabel').value.trim();
+    const labelPrefix = caseLabel ? `${caseLabel}) ` : '';
+    const commas = (caseLabel.match(/,/g) || []).length;
+    const sampleRef = !caseLabel        ? 'Nel campione'
+                    : commas === 0      ? 'Nel campione'
+                    : commas === 1      ? 'In entrambi i campioni'
+                    :                    'Nei campioni esaminati';
+
     let report = '';
 
-    // Red flag markers in testa se presenti
+    // Red flag markers in testa
+    if (hasNonEosinophilicInfiltrate) report += `NOTA: infiltrato predominante ${infiltrate === 'plasma' ? 'plasmacellulare' : 'linfocitario'} — endotipo non-Type 2; valutare patologia specifica.\n`;
     if (vasculitis)              report += '*** RED FLAG: VASCULITE — escludere EGPA/GPA/ANCA-associata ***\n';
     if (epithelium === 'atypia') report += '*** RED FLAG: ATIPIA/DISPLASIA EPITELIALE — escludere neoplasia ***\n';
     if (bilateral === 'no')      report += '*** RED FLAG: PRESENTAZIONE UNILATERALE — correlare endoscopia/imaging ***\n';
     if (report)                  report += '\n';
 
-    if (hasCriticalRedFlag) {
-      report += `Lesione polipoide nasosinusale con reperti istologici critici che richiedono approfondimento diagnostico (vedi red flag).`;
-    } else if (bilateral === 'no') {
-      report += isType2
-        ? `Lesione polipoide nasosinusale infiammatoria con eosinofilia tissutale (Rinosinusite cronica con poliposi nasale -CRSwNP eosinofilica, profilo morfologico compatibile con endotipo Type 2 secondo EPOS 2020), con presentazione clinica unilaterale; necessaria correlazione endoscopica e radiologica ed esclusione di lesioni specifiche.`
-        : `Lesione polipoide nasosinusale infiammatoria (profilo non-Type 2 secondo EPOS 2020), con presentazione clinica unilaterale; necessaria correlazione endoscopica e radiologica.`;
+    // ── FRASE 1: apertura in base al tipo campione ──
+    let apertura = '';
+    if (specimenType === 'polyp') {
+      apertura = `${labelPrefix}${sampleRef}, polipo naso-sinusale di tipo infiammatorio.`;
+    } else if (specimenType === 'reah') {
+      apertura = `${labelPrefix}${sampleRef}, frammenti di tessuto naso-sinusale con caratteristiche morfologiche di amartoma epiteliale respiratorio adenomatoide (REAH): proliferazione di ghiandole siero-mucinose a configurazione prevalentemente lobulare, rivestite da epitelio respiratorio cilindrico e caliciforme, prive di atipia, immerse in uno stroma fibroso con modesta componente infiammatoria.`;
+    } else if (specimenType === 'hamartoma') {
+      apertura = `${labelPrefix}${sampleRef}, frammenti di tessuto naso-sinusale con caratteristiche morfologiche di amartoma siero-mucinoso: lobuli di ghiandole siero-mucinose mature, ben differenziate, rivestite da epitelio colonnare basso senza atipia, separate da sottili setti fibromuscolarI, compatibili con proliferazione amartomatosa della componente ghiandolare.`;
     } else {
-      report += isType2
-        ? (eosVal >= 50
-            ? `Polipi nasosinusali infiammatori con marcata eosinofilia tissutale (Rinosinusite cronica con poliposi nasale -CRSwNP eosinofilica, profilo morfologico compatibile con endotipo Type 2 secondo EPOS 2020).`
-            : `Polipi nasosinusali infiammatori con eosinofilia tissutale (Rinosinusite cronica con poliposi nasale -CRSwNP eosinofilica, profilo morfologico compatibile con endotipo Type 2 secondo EPOS 2020).`)
-        : `Polipi nasosinusali infiammatori (profilo non-Type 2 secondo EPOS 2020, eosinofilia tissutale assente/bassa).`;
+      apertura = `${labelPrefix}${sampleRef}, frammenti di mucosa respiratoria caratterizzati da un'architettura polipoide.`;
     }
+    report += apertura;
 
-    report += '\n\nVALUTAZIONE ISTOLOGICA (EE):\n';
-    report += `- Eosinofili: ${eosVal} eos/HPF (400×), ${getMethodText(countMethod)}`;
-    if (countMethod === 'hotspot') report += ' — NOTA: metodo hotspot; valore potenzialmente sovrastimato';
-    report += '\n';
-    if (heterogeneous) report += `- Distribuzione disomogenea (pattern patchy); valore riferito alle aree a maggiore infiltrazione\n`;
-    report += `- Stroma: ${getStromaText(stroma)}\n`;
-    report += `- Infiltrato predominante: ${getInfiltrateText(infiltrate)}\n`;
-    report += `- Epitelio: ${getEpitheliumText(epithelium)}\n`;
+    // ── FRASE 2: stroma (solo per polipo e mucosa) ──
+    if (specimenType === 'polyp' || specimenType === 'mucosa') {
+      const stromaMap = {
+        edematous: 'Lo stroma appare mixo-edematoso e lasso, con espansione degli spazi interstiziali subepiteliali.',
+        fibrotic:  'Lo stroma appare fibroso e compatto.',
+        mixed:     'Lo stroma è di aspetto misto, con aree edematoso-mixoidi alternate a zone di fibrosi.',
+        other:     'Lo stroma presenta caratteristiche non specificamente inquadrabili.'
+      };
+      report += ' ' + (stromaMap[stroma] || '');
 
-    const extras = [];
-    if (clc)            extras.push('cristalli di Charcot-Leyden');
-    if (degranulation)  extras.push('degranulazione eosinofila extracellulare massiva');
-    if (mucin)          extras.push('mucina allergica (densa, ricca di eosinofili)');
-    if (fungi)          extras.push('elementi fungini (colorazioni speciali indicate)');
-    if (fungi && mucin) extras.push('funghi + mucina allergica: correlare per possibile AFRS');
-    if (germinal)       extras.push('centri germinativi prominenti');
-    if (microabscesses) extras.push('microascessi neutrofili');
-    if (fibrin)         extras.push('depositi di fibrina');
-    if (remodeling)     extras.push('remodeling stromale fibroblastico marcato');
-    if (vasculitis)     extras.push('VASCULITE: escludere GPA/EGPA/patologia ANCA-associata');
-    if (extras.length)  report += `- Reperti aggiuntivi: ${extras.join('; ')}\n`;
+      // ── FRASE 3: infiltrato ──
+    let infiltrateFrase = '';
+    if (hasNonEosinophilicInfiltrate) {
+      if (infiltrate === 'plasma') {
+        infiltrateFrase = `L'infiltrato infiammatorio è prevalentemente plasmacellulare, con distribuzione perivascolare e interstiziale.`;
+        if (eosVal > 0) infiltrateFrase += ` Si osserva una componente eosinofilica accessoria (${eosVal} eos/HPF, 400×), non sufficiente a orientare per endotipo Type 2.`;
+      } else {
+        infiltrateFrase = `L'infiltrato infiammatorio è prevalentemente linfocitario.`;
+        if (eosVal > 0) infiltrateFrase += ` Si osserva una componente eosinofilica accessoria (${eosVal} eos/HPF, 400×).`;
+      }
+    } else if (infiltrate === 'mixed') {
+      infiltrateFrase = `L'infiltrato infiammatorio è di grado moderato e a costituzione polimorfa`;
+      if (isType2) {
+        infiltrateFrase += `: si osserva una componente di linfociti e plasmacellule con distribuzione perivascolare, a cui si associa una popolazione di eosinofili che raggiunge ${eosVal >= 50 ? 'marcatamente' : ''} la soglia di ${eosVal} cellule per campo ad alto ingrandimento (HPF, 400×).`;
+      } else {
+        infiltrateFrase += `, con componenti linfocitarie, plasmacellulari e eosinofile. Il conteggio degli eosinofili è di ${eosVal} eos/HPF (400×), al di sotto della soglia Type 2 (EPOS 2020).`;
+      }
+    } else if (infiltrate === 'eosinophils') {
+      if (isType2) {
+        infiltrateFrase = `L'infiltrato infiammatorio è prevalentemente eosinofilo${eosVal >= 50 ? ' e marcato' : ''}, con una popolazione che raggiunge ${eosVal} cellule per campo ad alto ingrandimento (HPF, 400×)`;
+        infiltrateFrase += eosVal >= 50 ? ', soglia indicativa di elevato rischio di recidiva post-chirurgica.' : '.';
+      } else {
+        infiltrateFrase = `L'infiltrato infiammatorio è di lieve entità; il conteggio degli eosinofili è di ${eosVal} eos/HPF (400×), al di sotto della soglia classificativa Type 2 (EPOS 2020).`;
+      }
+    } else if (infiltrate === 'neutrophils') {
+      infiltrateFrase = `L'infiltrato infiammatorio è prevalentemente neutrofilo (${eosVal} eos/HPF, 400×), configurando un profilo non-Type 2.`;
+    } else {
+      infiltrateFrase = `L'infiltrato infiammatorio è prevalentemente linfocitario (${eosVal} eos/HPF, 400×).`;
+    }
+    report += ' ' + infiltrateFrase;
+    } // fine blocco polipo/mucosa
 
+    // ── FRASE 4: epitelio e membrane basale ──
+    let epithelioFrase = '';
+    if (epithelium === 'normal') {
+      epithelioFrase = "L'epitelio di rivestimento è di tipo respiratorio pseudostratificato, senza atipie.";
+    } else if (epithelium === 'squamous') {
+      epithelioFrase = "L'epitelio di rivestimento mostra aree di metaplasia squamosa di tipo reattivo.";
+    } else if (epithelium === 'hyperplasia') {
+      epithelioFrase = "L'epitelio di rivestimento mostra segni di iperplasia delle cellule caliciformi.";
+    } else if (epithelium === 'atypia') {
+      epithelioFrase = "L'epitelio di rivestimento presenta alterazioni atipiche/displastiche che richiedono approfondimento diagnostico separato.";
+    }
+    if (epithelioFrase) report += '\n' + epithelioFrase;
+
+    // ── REPERTI AGGIUNTIVI positivi ──
+    const positivi = [];
+    if (clc)           positivi.push('cristalli di Charcot-Leyden');
+    if (degranulation) positivi.push('degranulazione eosinofilica extracellulare massiva');
+    if (mucin)         positivi.push('mucina allergica densa ricca di eosinofili');
+    if (fungi)         positivi.push('elementi fungini (colorazioni speciali indicate)');
+    if (germinal)      positivi.push('centri germinativi prominenti');
+    if (microabscesses)positivi.push('microascessi neutrofili');
+    if (fibrin)        positivi.push('depositi di fibrina');
+    if (remodeling)    positivi.push('remodeling stromale fibroblastico marcato');
+    if (vasculitis)    positivi.push('vasculite (escludere GPA/EGPA/patologia ANCA-associata)');
+    if (heterogeneous) positivi.push('distribuzione disomogenea dell\'infiltrato (pattern patchy)');
+    if (positivi.length) report += ' Si osservano inoltre: ' + positivi.join('; ') + '.';
+
+    // ── NEGAZIONI ESPLICITE (stile referto visto) ──
+    const negativi = [];
+    if (!microabscesses && infiltrate !== 'neutrophils') negativi.push('infiltrati neutrofili predominanti');
+    if (epithelium !== 'atypia') negativi.push('metaplasia squamosa atipica');
+    if (!vasculitis) negativi.push('vasculite');
+    if (negativi.length) report += '\nNon si osservano ' + negativi.join(', né ') + '.';
+
+    // ── NOTA HOTSPOT ──
+    if (countMethod === 'hotspot') report += '\nNOTA: metodo di conteggio hotspot; valore potenzialmente sovrastimato.';
+    if (steroids === 'yes') report += '\nNOTA: steroidoterapia sistemica recente; conteggio eosinofili potenzialmente sottostimato.';
+
+    // ── CORRELAZIONE CLINICA (solo se rilevante) ──
     const clinObs = [];
-    if (bilateral === 'yes' && isType2) clinObs.push('bilateralità clinica coerente con endotipo Type 2');
-    if (bilateral === 'no')              clinObs.push('presentazione unilaterale: necessaria correlazione endoscopica e imaging');
-    if (asthma === 'yes')                clinObs.push('asma comorbida');
-    if (nerd === 'yes')                  clinObs.push('N-ERD / intolleranza a FANS');
-    if (asthma === 'yes' && nerd === 'yes' && isType2) clinObs.push('possibile triade AERD/N-ERD (Samter)');
-    if (anosmia === 'yes')               clinObs.push('anosmia/iposmia significativa');
-    if (recurrence === 'yes')            clinObs.push('recidiva post-FESS documentata');
-    if (bloodEos === 'gte250')           clinObs.push('eosinofilia ematica ≥250/μL');
-    if (steroids === 'yes')              clinObs.push('steroidoterapia sistemica recente: conteggio eosinofili potenzialmente sottostimato');
-    if (fungi && mucin)                  clinObs.push('quadro da correlare per possibile AFRS (colorazioni GMS/PAS e imaging)');
+    if (asthma === 'yes' && nerd === 'yes' && isType2 && !hasCriticalRedFlag) clinObs.push('possibile triade AERD/N-ERD (Samter): CRSwNP eosinofilica + asma + intolleranza a FANS');
+    else if (nerd === 'yes' && !hasCriticalRedFlag) clinObs.push('N-ERD / intolleranza a FANS documentata');
+    if (recurrence === 'yes') clinObs.push('recidiva post-FESS documentata');
+    if (bloodEos === 'gte250') clinObs.push('eosinofilia ematica ≥250/μL');
+    if (fungi && mucin) clinObs.push('quadro da correlare per possibile AFRS (colorazioni GMS/PAS e imaging)');
+    if (bilateral === 'no') clinObs.push('presentazione clinica unilaterale: necessaria correlazione endoscopica e imaging');
+    if (clinObs.length) report += '\n\nCorrelazione clinico-patologica: ' + clinObs.join('; ') + '.';
 
-    if (clinObs.length) {
-      report += '\nCORRELAZIONE CLINICO-PATOLOGICA:\n';
-      clinObs.forEach(o => report += `- ${o}\n`);
-    }
-
-    // Classificazione finale — inline, stile LIS
-    let classFin = '';
-    if (hasCriticalRedFlag) {
-      classFin = `Classificazione endotipica sospesa (reperti critici: ${[vasculitis ? 'vasculite' : '', epithelium === 'atypia' ? 'atipia epiteliale' : ''].filter(Boolean).join('; ')}). Eosinofilia tissutale: ${eosVal} eos/HPF.`;
-    } else if (isType2) {
-      const tier = eosVal >= 70 ? 'eosinofilia molto elevata, ≥70 eos/HPF — soglia osservazionale'
-                 : eosVal >= 50 ? 'eosinofilia elevata, 50–69 eos/HPF — soglia osservazionale'
-                 :                `${eosVal} eos/HPF`;
-      classFin = `Endotipo Type 2 (${tier})`;
-      if (totalCriteria >= 3) classFin += `; criteri biologici EPOS ${totalCriteria}/5 soddisfatti`;
+    // ── INQUADRAMENTO FINALE ──
+    report += '\n\n';
+    if (isMucosa) {
+      // nessun inquadramento EPOS per la mucosa
+    } else if (vasculitis || epithelium === 'atypia') {
+      const motivo = [vasculitis ? 'vasculite' : '', epithelium === 'atypia' ? 'atipia epiteliale' : ''].filter(Boolean).join('; ');
+      report += `Inquadramento EPOS 2020: classificazione endotipica sospesa (${motivo}; necessario approfondimento diagnostico).`;
+    } else if (hasNonEosinophilicInfiltrate) {
+      const infiltrateLabel = infiltrate === 'plasma' ? 'plasmacellulare' : 'linfocitario';
+      report += `Inquadramento EPOS 2020: Endotipo non-Type 2 (infiltrato predominante ${infiltrateLabel}). Valutare patologia specifica.`;
+    } else if (bilateral === 'no') {
+      const spec = specimenType === 'polyp' ? 'polipo naso-sinusale infiammatorio' : 'lesione polipoide nasosinusale infiammatoria';
+      report += isType2
+        ? `Inquadramento EPOS 2020: ${spec} compatibile con rinosinusite cronica con poliposi nasale (CRSwNP), Endotipo di Tipo 2 (T2). Presentazione unilaterale: necessaria esclusione di lesioni specifiche.`
+        : `Inquadramento EPOS 2020: ${spec} (CRSwNP), Endotipo non-Type 2. Presentazione unilaterale: necessaria esclusione di lesioni specifiche.`;
     } else {
-      classFin = `Endotipo non-Type 2 (${eosVal} eos/HPF)`;
+      const spec = specimenType === 'polyp' ? 'polipo naso-sinusale infiammatorio compatibile con rinosinusite cronica con poliposi nasale (CRSwNP)' : 'quadro compatibile con rinosinusite cronica con poliposi nasale (CRSwNP)';
+      if (isType2) {
+        const tier = eosVal >= 70 ? ' (eosinofilia molto elevata, ≥70 eos/HPF)'
+                   : eosVal >= 50 ? ' (eosinofilia elevata, 50–69 eos/HPF)'
+                   : '';
+        let inq = `Inquadramento EPOS 2020: ${spec}, Endotipo di Tipo 2 (T2)${tier}.`;
+        if (totalCriteria >= 3) inq += ` Criteri biologici EPOS soddisfatti (${totalCriteria}/5); indicata valutazione multidisciplinare per terapia biologica.`;
+        report += inq;
+      } else {
+        report += `Inquadramento EPOS 2020: ${spec}, Endotipo non-Type 2.`;
+      }
     }
-    report += `\nCLASSIFICAZIONE FINALE (EPOS 2020): ${classFin}\n`;
 
     document.getElementById('reportText').textContent = report;
 
@@ -1278,6 +1423,7 @@
     document.querySelectorAll('select').forEach(s => s.selectedIndex = 0);
     document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
     document.querySelectorAll('input[type="number"], input[type="text"]').forEach(i => i.value = '');
+    document.getElementById('eos-block').style.display = 'block';
     document.getElementById('eos-zone-warning').classList.remove('visible');
     document.getElementById('hotspot-warning').style.display = 'none';
     document.getElementById('output').classList.remove('visible');
