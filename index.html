@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tool Diagnostico - Polipi Nasosinusali (CRSwNP) v2.14</title>
+  <title>Tool Diagnostico - Polipi Nasosinusali (CRSwNP) v2.16</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
@@ -595,7 +595,7 @@
 
   <header>
     <h1>Tool Diagnostico — Polipi Nasosinusali</h1>
-    <p class="subtitle">Classificazione endotipica EPOS 2020 · Criteri candidabilità terapie biologiche · Triade AERD/N-ERD · v2.14</p>
+    <p class="subtitle">Classificazione endotipica EPOS 2020 · Criteri candidabilità terapie biologiche · Triade AERD/N-ERD · v2.16</p>
   </header>
 
   <div class="main-layout">
@@ -612,7 +612,7 @@
 
         <div class="form-group">
           <label for="caseLabel">Etichetta campione <span class="label-note">— es. A, B oppure A,B,C</span></label>
-          <input type="text" id="caseLabel" placeholder="es. A, B" style="max-width:200px;">
+          <input type="text" id="caseLabel" placeholder="" style="max-width:200px;">
         </div>
 
         <div class="form-group">
@@ -626,6 +626,7 @@
         </div>
 
         <div class="form-group">
+          <label for="infiltrate">Cellula infiammatoria principale</label>
           <select id="infiltrate" onchange="onInfiltrateChange()">
             <option value="eosinophils">Eosinofili</option>
             <option value="mixed">Misto (eosinofili + linfociti/plasmacellule)</option>
@@ -648,7 +649,7 @@
               <span class="label-note">— media nelle aree più infiltrate</span>
             </label>
             <div class="eos-input-wrapper">
-              <input type="number" id="eosinophils" min="0" max="500" step="1" placeholder="es. 35">
+              <input type="number" id="eosinophils" min="0" max="500" step="1" placeholder="">
               <span class="eos-unit">eos/HPF</span>
             </div>
             <div class="inline-warning" id="eos-zone-warning"></div>
@@ -733,6 +734,12 @@
             </div>
           </div>
         </div>
+      </div><!-- /card sezione 1 -->
+
+      <!-- BUTTONS — dopo morfologia -->
+      <div class="button-group">
+        <button type="button" class="primary" onclick="generateReport()">Genera Referto</button>
+        <button type="button" class="secondary" onclick="resetForm()">🔄 Nuovo Caso</button>
       </div>
 
       <!-- SEZIONE 2: DATI CLINICI -->
@@ -870,12 +877,6 @@
         <div style="margin-top: 0.85rem; font-size: 0.82rem; color: var(--text-muted);">
           <strong>Nota:</strong> si aggiungono ai requisiti minimi: diagnosi istologica confermata, previo trattamento chirurgico e terapia con corticosteroidi intranasali in corso.
         </div>
-      </div>
-
-      <!-- BUTTONS -->
-      <div class="button-group">
-        <button type="button" class="primary" onclick="generateReport()">Genera Referto</button>
-        <button type="button" class="secondary" onclick="resetForm()">🔄 Nuovo Caso</button>
       </div>
 
     </div><!-- /form-col -->
