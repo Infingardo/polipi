@@ -1,4 +1,4 @@
-# Tool Diagnostico — Polipi Nasosinusali (CRSwNP) v2.14
+# Tool Diagnostico — Polipi Nasosinusali (CRSwNP) v2.16
 
 Strumento di supporto diagnostico per la classificazione endotipica dei polipi nasosinusali secondo **EPOS 2020**, con valutazione della candidabilità alle terapie biologiche e generazione automatica del testo referto in stile LIS.
 
